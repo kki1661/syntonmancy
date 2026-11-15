@@ -1,4 +1,4 @@
-cff-version: 1.2.0
+﻿cff-version: 1.2.0
 message: "If you use Syntonmancy or its technical disclosure, please cite this record."
 title: "字势静兼 / Syntonmancy 2.1.6 — 得字解句式跨维聊天平台（技术披露与可复现材料）"
 abstract: >-
@@ -13,6 +13,9 @@ authors:
 version: "2.1.6"
 date-released: "2026-11-16"
 license: "GPL-3.0-only"
+doi: "10.5281/zenodo.24252070"
+repository-code: "https://github.com/kki1661/syntonmancy"
+url: "https://doi.org/10.5281/zenodo.24252070"
 keywords:
   - Syntonmancy
   - 字势静兼
