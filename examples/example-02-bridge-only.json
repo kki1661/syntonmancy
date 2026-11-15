@@ -1,0 +1,25 @@
+{
+  "example_id": "example-02-bridge-only",
+  "version": "2.1.6",
+  "kind": "curated structural example, not a raw model run",
+  "input": {
+    "user_text": "有些话说出来，会不会反而更远？",
+    "drawn_chars": ["月", "影", "无", "声", "潮", "退"],
+    "photos": []
+  },
+  "output": {
+    "interpretation": "月影没有声音，潮水退去以后，影还留在原处。字面是安静的退潮，也是一种没有说出口的停留。",
+    "landing": "",
+    "word_layer": "月影无声，潮退以后，影还在。",
+    "reply": "月影无声，潮退以后，影还在原处，像一句没有说出口的话。"
+  },
+  "validation": {
+    "all_drawn_chars_used": true,
+    "missing": [],
+    "borrowed": ["以", "后", "在", "还"],
+    "borrow_limit": null,
+    "landing_present": false,
+    "landing_tendency": "不适用",
+    "word_layer_used_total": "10/10"
+  }
+}

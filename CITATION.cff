@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use Syntonmancy or its technical disclosure, please cite this record."
+title: "字势静兼 / Syntonmancy 2.1.6 — 得字解句式跨维聊天平台（技术披露与可复现材料）"
+abstract: >-
+  A local-first character-drawing chat platform. Each turn draws 1–30 characters
+  from a 3,000-character bank; the model must use every drawn character in a
+  word_layer, write an interpretation that is at least 70% grounded in that
+  word layer and at most 30% free association, and derive the user-facing reply
+  from the interpretation. Only the last 8 messages / 1,200 characters are
+  supplied as weak context.
+authors:
+  - name: "字势静兼作者"
+version: "2.1.6"
+date-released: "2026-11-16"
+license: "GPL-3.0-only"
+keywords:
+  - Syntonmancy
+  - 字势静兼
+  - 得字解句
+  - character-constrained generation
+  - local-first
+  - chatbot
+  - prompt engineering
+  - Chinese characters

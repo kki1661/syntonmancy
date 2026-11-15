@@ -1,0 +1,37 @@
+{
+  "example_id": "example-01",
+  "version": "2.1.6",
+  "kind": "curated structural example, not a raw model run",
+  "input": {
+    "user_text": "今天下班很晚，回家路上还在下雨。有点累，但也有点安心。",
+    "drawn_chars": [
+      "山",
+      "风",
+      "夜",
+      "雨",
+      "灯",
+      "归",
+      "人",
+      "门"
+    ],
+    "photos": []
+  },
+  "output": {
+    "interpretation": "夜雨落在山风里，灯下的人刚从外面回来，身上的凉意还在；门内的灯还亮着。字面有晚归的凉意，也有被留灯等候的安稳。",
+    "landing": "你到家了，身上的凉意还在。",
+    "word_layer": "夜雨山风，灯下归人；门内灯亮。",
+    "reply": "你到家了，身上的凉意还在。夜雨落在山风里，灯下的人刚从外面回来；门内的灯还亮着，像有人替你留着一盏。"
+  },
+  "validation": {
+    "all_drawn_chars_used": true,
+    "missing": [],
+    "borrowed": [
+      "下",
+      "亮",
+      "内"
+    ],
+    "borrow_limit": null,
+    "landing_present": true,
+    "word_layer_used_total": "11/11"
+  }
+}
