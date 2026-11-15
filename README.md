@@ -1,4 +1,4 @@
-# 字势静兼 / Syntonmancy 2.1.6
+﻿# 字势静兼 / Syntonmancy 2.1.6
 
 **得字解句式跨维聊天平台 · 技术披露与可复现材料**
 
@@ -143,10 +143,10 @@ Get-Content CHECKSUMS.txt | ForEach-Object {
 ```text
 字势静兼作者. (2026). 字势静兼 / Syntonmancy 2.1.6:
 得字解句式跨维聊天平台（技术披露与可复现材料）.
-Zenodo. https://doi.org/[待分配]
+Zenodo. https://doi.org/10.5281/zenodo.24252070
 ```
 
-GitHub 仓库地址与 Zenodo DOI 在正式发布后填入 [`ZENODO-METADATA.md`](ZENODO-METADATA.md) 和本 README。
+GitHub 仓库地址与 Zenodo DOI 已写入本 README；[`ZENODO-METADATA.md`](ZENODO-METADATA.md) 保留为元数据参考。
 
 ## 边界与限制
 
