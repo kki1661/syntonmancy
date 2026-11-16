@@ -33,21 +33,7 @@ jobs:
       - name: Patch Electron main process for macOS
         working-directory: src/syntonmancy-2.1.6/desktop
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('main.js')
-          s = p.read_text(encoding='utf-8')
-          s = s.replace(
-            "const trayImagePath = fs.existsSync(iconIcoPath) ? iconIcoPath : trayPath;",
-            "const trayImagePath = process.platform === 'win32' && fs.existsSync(iconIcoPath) ? iconIcoPath : (fs.existsSync(trayPath) ? trayPath : iconPath);",
-          )
-          s = s.replace(
-            "icon: fs.existsSync(iconIcoPath) ? iconIcoPath : (fs.existsSync(iconPath) ? iconPath : undefined),",
-            "icon: process.platform === 'win32' && fs.existsSync(iconIcoPath) ? iconIcoPath : (fs.existsSync(iconPath) ? iconPath : undefined),",
-          )
-          p.write_text(s, encoding='utf-8')
-          print('patched main.js')
-          PY
+          python3 -c "import base64; exec(base64.b64decode('ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnAgPSBQYXRoKCJtYWluLmpzIikKcyA9IHAucmVhZF90ZXh0KGVuY29kaW5nPSJ1dGYtOCIpCnMgPSBzLnJlcGxhY2UoImNvbnN0IHRyYXlJbWFnZVBhdGggPSBmcy5leGlzdHNTeW5jKGljb25JY29QYXRoKSA/IGljb25JY29QYXRoIDogdHJheVBhdGg7IiwgImNvbnN0IHRyYXlJbWFnZVBhdGggPSBwcm9jZXNzLnBsYXRmb3JtID09PSAnd2luMzInICYmIGZzLmV4aXN0c1N5bmMoaWNvbkljb1BhdGgpID8gaWNvbkljb1BhdGggOiAoZnMuZXhpc3RzU3luYyh0cmF5UGF0aCkgPyB0cmF5UGF0aCA6IGljb25QYXRoKTsiKQpzID0gcy5yZXBsYWNlKCJpY29uOiBmcy5leGlzdHNTeW5jKGljb25JY29QYXRoKSA/IGljb25JY29QYXRoIDogKGZzLmV4aXN0c1N5bmMoaWNvblBhdGgpID8gaWNvblBhdGggOiB1bmRlZmluZWQpLCIsICJpY29uOiBwcm9jZXNzLnBsYXRmb3JtID09PSAnd2luMzInICYmIGZzLmV4aXN0c1N5bmMoaWNvbkljb1BhdGgpID8gaWNvbkljb1BhdGggOiAoZnMuZXhpc3RzU3luYyhpY29uUGF0aCkgPyBpY29uUGF0aCA6IHVuZGVmaW5lZCksIikKcC53cml0ZV90ZXh0KHMsIGVuY29kaW5nPSJ1dGYtOCIpCnByaW50KCJwYXRjaGVkIG1haW4uanMiKQo=').decode())"
 
       - name: Install build dependencies
         working-directory: src/syntonmancy-2.1.6/desktop
@@ -63,7 +49,7 @@ jobs:
           done
           iconutil -c icns icon.iconset -o assets/icon-v3.icns
 
-      - name: Package .app
+      - name: Package app
         working-directory: src/syntonmancy-2.1.6/desktop
         run: |
           npx electron-packager . "字势静兼" \
@@ -86,38 +72,34 @@ jobs:
           cp "$GITHUB_WORKSPACE/LICENSE" "$APP/Contents/Resources/LICENSE"
           cp "$GITHUB_WORKSPACE/LICENSE-APACHE-2.0" "$APP/Contents/Resources/LICENSE-APACHE-2.0"
 
-          # Ad-hoc signature: no Apple Developer certificate is required.
           codesign --force --deep --sign - "$APP"
           codesign --verify --deep --strict "$APP"
 
-          mkdir -p package-${{ matrix.arch }}
+          mkdir -p "package-${{ matrix.arch }}"
           cp -R "$APP" "package-${{ matrix.arch }}/"
-          cat > "package-${{ matrix.arch }}/README-MAC.txt" <<'EOF'
-字势静兼 / Syntonmancy 2.1.6 — macOS
 
-This app is unsigned by an Apple Developer ID and is only ad-hoc signed.
-It is not notarized. On first launch, macOS may block it.
-
-How to open:
-1. Unzip this package.
-2. Drag 字势静兼.app to Applications if you want.
-3. Right-click the app, choose Open, then confirm Open.
-4. If macOS says it is damaged or cannot be opened, run:
-
-   xattr -dr com.apple.quarantine "/Applications/字势静兼.app"
-
-   Then try opening again.
-
-Data is stored locally at:
-   ~/Library/Application Support/字势静兼
-
-Backups are stored inside the app's local data directory. Export a JSON
-backup before uninstalling or clearing the app data.
-
-License:
-   Code: GPL-3.0-only
-   Paper/docs: see the LICENSE files inside the app bundle.
-EOF
+          printf '%s\n' \
+            '字势静兼 / Syntonmancy 2.1.6 - macOS' \
+            '' \
+            'This app is ad-hoc signed, not notarized.' \
+            'It may be blocked by Gatekeeper on first launch.' \
+            '' \
+            'How to open:' \
+            '1. Unzip this package.' \
+            '2. Right-click 字势静兼.app and choose Open.' \
+            '3. If macOS still blocks it, go to System Settings > Privacy & Security' \
+            '   and choose Open Anyway.' \
+            '4. If macOS says the app is damaged, run:' \
+            '' \
+            '   xattr -dr com.apple.quarantine "/Applications/字势静兼.app"' \
+            '' \
+            'Data is stored at:' \
+            '   ~/Library/Application Support/字势静兼' \
+            '' \
+            'Export a JSON backup before uninstalling or clearing app data.' \
+            '' \
+            'Code license: GPL-3.0-only. See LICENSE inside the app bundle.' \
+            > "package-${{ matrix.arch }}/README-MAC.txt"
 
           ditto -c -k --sequesterRsrc --keepParent \
             "package-${{ matrix.arch }}" \
