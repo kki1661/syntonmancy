@@ -1,0 +1,33 @@
+Windows 和 Android 版已发布。macOS 版暂未构建（因为我没有mac环境），欢迎有 Mac 环境的开发者作为 macOS build contributor 参与；项目提供源码、构建说明和技术支持，贡献按 GPL-3.0-only 合并，并在 README 与 Release 中署名。
+
+
+
+## macOS
+
+macOS 桌面版目前尚未由本项目构建。现有发布包含 Windows 与 Android 版本。
+
+欢迎有 macOS 环境的贡献者协助构建未签名/ad-hoc 签名的 `.app`。
+构建与验收要求见 [`MACOS-BUILD.md`](MACOS-BUILD.md)。
+
+macOS 用户目前可以直接使用网页版 `hanzi-oracle.html`，数据保存在浏览器本地，并支持导出 JSON 备份。
+
+
+
+“合作开发者”边界
+贡献者保留自己贡献部分的版权
+贡献按 GPL-3.0-only 授权
+不需要签 CLA
+在 README / Release notes 里署名
+不要求对方承担 Windows/Android 维护
+
+
+
+需交付：
+1. 基于 2.1.6 源码构建
+2. 产出 arm64 和 x64 两个 .app
+3. 做 ad-hoc 签名
+4. 在至少一台真实 Mac 上启动测试
+5. 提供 ZIP + SHA-256
+6. 写清楚 Gatekeeper 打开方式
+7. 不包含 API Key、聊天数据、签名私钥
+8. 代码仍按 GPL-3.0-only 发布
