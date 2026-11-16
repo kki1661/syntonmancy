@@ -1,0 +1,1 @@
+Windows 和 Android 版已发布。macOS 版暂未构建（因为我没有mac环境），欢迎有 Mac 环境的开发者作为 macOS build contributor 参与；项目提供源码、构建说明和技术支持，贡献按 GPL-3.0-only 合并，并在 README 与 Release 中署名。
