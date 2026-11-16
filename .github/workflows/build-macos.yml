@@ -78,28 +78,7 @@ jobs:
           mkdir -p "package-${{ matrix.arch }}"
           cp -R "$APP" "package-${{ matrix.arch }}/"
 
-          printf '%s\n' \
-            '字势静兼 / Syntonmancy 2.1.6 - macOS' \
-            '' \
-            'This app is ad-hoc signed, not notarized.' \
-            'It may be blocked by Gatekeeper on first launch.' \
-            '' \
-            'How to open:' \
-            '1. Unzip this package.' \
-            '2. Right-click 字势静兼.app and choose Open.' \
-            '3. If macOS still blocks it, go to System Settings > Privacy & Security' \
-            '   and choose Open Anyway.' \
-            '4. If macOS says the app is damaged, run:' \
-            '' \
-            '   xattr -dr com.apple.quarantine "/Applications/字势静兼.app"' \
-            '' \
-            'Data is stored at:' \
-            '   ~/Library/Application Support/字势静兼' \
-            '' \
-            'Export a JSON backup before uninstalling or clearing app data.' \
-            '' \
-            'Code license: GPL-3.0-only. See LICENSE inside the app bundle.' \
-            > "package-${{ matrix.arch }}/README-MAC.txt"
+          printf 'macOS build. If Gatekeeper blocks the app, right-click it and choose Open.\n' > "package-${{ matrix.arch }}/README-MAC.txt"
 
           ditto -c -k --sequesterRsrc --keepParent \
             "package-${{ matrix.arch }}" \
