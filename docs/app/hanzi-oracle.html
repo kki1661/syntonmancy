@@ -5416,6 +5416,18 @@ html[data-skin="midnight"] .ningzi-cover{background:linear-gradient(145deg,#080d
 
 .backup-download-primary{background:linear-gradient(135deg,var(--social-deep,#336957),var(--social,#4f806d))!important;color:#fffaf1!important;border-color:transparent!important;box-shadow:0 6px 16px rgba(51,105,87,.22);font-weight:700}
 .backup-download-primary:hover{filter:brightness(1.06);transform:translateY(-1px)}
+
+.ningzi-thread-closed{align-self:flex-start;color:var(--muted);font-size:9px;letter-spacing:.02em;border:1px solid var(--theme-border);border-radius:999px;padding:3px 8px}
+.ningzi-thread-end{margin-top:8px;padding-top:8px;border-top:1px dashed var(--theme-border);color:var(--muted);font-size:10px;line-height:1.6}
+
+.chat-presence-note{margin-top:4px;font-size:9px;letter-spacing:.02em;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+.chat-presence-note::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.65}
+
+.chat-proactive-prompt{margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:9px;line-height:1.5;color:var(--muted)}
+.chat-proactive-prompt > span:first-child{max-width:100%}
+.chat-proactive-actions{display:inline-flex;gap:4px}
+.chat-proactive-actions button{border:1px solid var(--theme-border);background:transparent;color:var(--ink-soft);border-radius:999px;font-size:9px;padding:2px 8px;line-height:1.4;cursor:pointer}
+.chat-proactive-actions button:hover{border-color:var(--social-line);color:var(--social-deep)}
 </style>
 <script id="skin-boot">
 try {
@@ -5892,7 +5904,7 @@ const NINGZI_RELEASE_INTERVAL_MS = 20 * 60 * 1000;
 const NINGZI_RELEASE_BATCH = 2;
 const NINGZI_MAX_CATCHUP = 6;
 const NINGZI_FIXED_PROBABILITIES = [0, 0.2, 0.4, 0.7, 1];
-const DEFAULT_NINGZI_SETTINGS = Object.freeze({ enabled: true, fixedProbability: 0.4, setupPrompted: false });
+const DEFAULT_NINGZI_SETTINGS = Object.freeze({ enabled: true, fixedProbability: 0.4, setupPrompted: false, costNoticeDay: '', costNoticeShown: false });
 const DEFAULT_NINGZI_IMAGE_PROMPT = '摄影风格：35mm胶片摄影，复古暖调，轻微颗粒感，电影感构图，日常松弛感，动作日常随性。如图片内容包含人物画风符合环境参考图的画风（如环境参考为动漫画风，但角色参考为写实画风，则将角色调整为动漫画风再融入背景），高质量人像，生成时面部单独生成，追求还原参考图，面部美型、五官比例合适、符合常规审美。浅景深，画幅比例自由。';
 const DEFAULT_IMAGE_SETTINGS = Object.freeze({
   provider: 'hunyuan',
@@ -11890,6 +11902,25 @@ addMissingUiText({
   "当前：{{name}} · 已自动保存": ["当前：{{name}} · 已自动保存", "目前：{{name}} · 已自動儲存", "Current: {{name}} · Saved automatically", "現在：{{name}} · 自動保存されました", "현재: {{name}} · 자동 저장됨", "ปัจจุบัน: {{name}} · บันทึกอัตโนมัติแล้ว", "Saat ini: {{name}} · Tersimpan otomatis", "Kasalukuyan: {{name}} · Awtomatikong nai-save", "Semasa: {{name}} · Disimpan secara automatik", "Actuel : {{name}} · Enregistré automatiquement", "Aktuell: {{name}} · Automatisch gespeichert", "Attuale: {{name}} · Salvato automaticamente", "Текущий: {{name}} · Сохранено автоматически", "Actual: {{name}} · Guardado automáticamente", "Atual: {{name}} · Salvo automaticamente", "الحالي: {{name}} · تم الحفظ تلقائيًا"],
 });
 
+addMissingUiText({
+  "对话已结束": ["对话已结束", "對話已結束", "Conversation ended", "会話は終了しました", "대화가 끝났습니다", "บทสนทนาจบแล้ว", "Percakapan berakhir", "Tapos na ang usapan", "Perbualan tamat", "Conversation terminée", "Gespräch beendet", "Conversazione terminata", "Разговор завершён", "Conversación terminada", "Conversa encerrada", "انتهت المحادثة"],
+  "对方没有再回复。这次对话停在这里。": ["对方没有再回复。这次对话停在这里。", "對方沒有再回覆。這次對話停在這裡。", "The other side did not reply again. This conversation ends here.", "相手はこれ以上返信しませんでした。この会話はここで終わります。", "상대방은 더 이상 답장하지 않았습니다. 이 대화는 여기서 끝납니다.", "อีกฝ่ายไม่ได้ตอบกลับอีก บทสนทนานี้จบลงตรงนี้", "Dia tidak membalas lagi. Percakapan ini berakhir di sini.", "Hindi na siya nag-reply. Dito nagtatapos ang usapang ito.", "Dia tidak membalas lagi. Perbualan ini berakhir di sini.", "L’autre personne n’a pas répondu. Cette conversation s’arrête ici.", "Die andere Person hat nicht mehr geantwortet. Dieses Gespräch endet hier.", "L’altra persona non ha più risposto. Questa conversazione finisce qui.", "Собеседник больше не ответил. Этот разговор заканчивается здесь.", "La otra persona no volvió a responder. Esta conversación termina aquí.", "A outra pessoa não respondeu mais. Esta conversa termina aqui.", "لم يرد الطرف الآخر مرة أخرى. تنتهي هذه المحادثة هنا."],
+});
+
+addMissingUiText({
+  "对方可能没有上线": ["对方可能没有上线", "對方可能沒有上線", "The other side may not be online", "相手はオンラインではないかもしれません", "상대방이 접속하지 않았을 수 있습니다", "อีกฝ่ายอาจยังไม่ออนไลน์", "Dia mungkin tidak sedang online", "Maaaring hindi ito online", "Dia mungkin tidak dalam talian", "L’autre personne n’est peut-être pas en ligne", "Die andere Person ist vielleicht nicht online", "L’altra persona potrebbe non essere online", "Возможно, собеседник не в сети", "Puede que la otra persona no esté en línea", "A outra pessoa pode não estar online", "قد لا يكون الطرف الآخر متصلًا"],
+  "忙碌中": ["忙碌中", "忙碌中", "Busy", "対応中です", "바쁨", "กำลังไม่ว่าง", "Sedang sibuk", "Abala", "Sedang sibuk", "Occupé", "Beschäftigt", "Occupato", "Занят", "Ocupado", "Ocupado", "مشغول"],
+  "第 10 条朋友圈": ["第 10 条朋友圈", "第 10 條朋友圈", "Your 10th moment today", "今日 10 件目のモーメント", "오늘의 10번째 모먼트", "โมเมนต์ที่ 10 ของวันนี้", "Momen ke-10 hari ini", "Ika-10 mong moment ngayon", "Momen ke-10 hari ini", "Votre 10e moment aujourd’hui", "Dein 10. Moment heute", "Il tuo decimo momento oggi", "Ваш 10-й момент сегодня", "Tu décimo momento de hoy", "Seu 10º momento hoje", "لحظتك العاشرة اليوم"],
+  "今天已经发了 10 条朋友圈。图片生成和评论模型都可能产生服务商费用，请留意 API 账单。": ["今天已经发了 10 条朋友圈。图片生成和评论模型都可能产生服务商费用，请留意 API 账单。", "今天已經發了 10 條朋友圈。圖片生成和評論模型都可能產生服務商費用，請留意 API 帳單。", "You have published 10 moments today. Image generation and comment models may incur provider charges, so please keep an eye on your API bill.", "今日はすでに 10 件のモーメントを投稿しました。画像生成とコメントモデルにはプロバイダー料金がかかる場合があります。API の請求にご注意ください。", "오늘 이미 10개의 모먼트를 게시했습니다. 이미지 생성과 댓글 모델에 제공업체 비용이 발생할 수 있으니 API 청구서를 확인해 주세요.", "วันนี้คุณโพสต์โมเมนต์ไปแล้ว 10 รายการ การสร้างภาพและโมเดลความคิดเห็นอาจมีค่าใช้จ่ายจากผู้ให้บริการ โปรดตรวจสอบบิล API", "Anda sudah memublikasikan 10 momen hari ini. Pembuatan gambar dan model komentar dapat menimbulkan biaya penyedia, jadi pantau tagihan API Anda.", "Nakapag-publish ka na ng 10 moment ngayon. Maaaring may bayad mula sa provider ang paggawa ng larawan at comment model, kaya bantayan ang API bill mo.", "Anda telah menerbitkan 10 momen hari ini. Penjanaan imej dan model komen mungkin dikenakan caj penyedia, jadi pantau bil API anda.", "Vous avez publié 10 moments aujourd’hui. La génération d’images et les modèles de commentaires peuvent entraîner des frais du fournisseur ; surveillez votre facture API.", "Du hast heute 10 Momente veröffentlicht. Bildgenerierung und Kommentarmodelle können Anbieterkosten verursachen; behalte deine API-Rechnung im Blick.", "Hai pubblicato 10 momenti oggi. La generazione di immagini e i modelli di commento possono comportare costi del fornitore; tieni d’occhio la fattura API.", "Вы опубликовали 10 моментов сегодня. Генерация изображений и модели комментариев могут повлечь расходы у провайдера; следите за счётом API.", "Has publicado 10 momentos hoy. La generación de imágenes y los modelos de comentarios pueden generar cargos del proveedor; revisa tu factura de API.", "Você publicou 10 momentos hoje. A geração de imagens e os modelos de comentários podem gerar cobranças do provedor; acompanhe sua fatura de API.", "لقد نشرت 10 لحظات اليوم. قد تترتب على إنشاء الصور ونماذج التعليقات رسوم من المزود، لذا راقب فاتورة API."],
+  "知道了": ["知道了", "知道了", "Got it", "わかりました", "알겠습니다", "เข้าใจแล้ว", "Mengerti", "Nakuha ko", "Faham", "Compris", "Verstanden", "Ho capito", "Понятно", "Entendido", "Entendi", "فهمت"],
+});
+
+addMissingUiText({
+  "是否打开主动回复功能，等待对方主动聊天？": ["是否打开主动回复功能，等待对方主动聊天？", "是否開啟主動回覆功能，等待對方主動聊天？", "Turn on proactive replies and wait for the other person to start chatting?", "相手からの自発的なチャットを待つため、主動返信機能をオンにしますか？", "상대방이 먼저 말을 걸어오도록 자발적 답장 기능을 켤까요?", "เปิดฟีเจอร์ตอบกลับเชิงรุกเพื่อรอให้อีกฝ่ายเริ่มคุยหรือไม่?", "Aktifkan balasan proaktif dan tunggu dia memulai obrolan?", "I-on ang proactive na pag-reply at hintayin siyang magsimula ng usapan?", "Hidupkan balasan proaktif dan tunggu dia memulakan perbualan?", "Activer les réponses proactives et attendre que l’autre commence la conversation ?", "Proaktive Antworten aktivieren und warten, bis die andere Person das Gespräch beginnt?", "Attivare le risposte proattive e aspettare che l’altra persona inizi la conversazione?", "Включить инициативные ответы и ждать, пока собеседник начнёт разговор?", "¿Activar las respuestas proactivas y esperar a que la otra persona inicie la conversación?", "Ativar respostas proativas e esperar que a outra pessoa comece a conversa?", "هل تريد تفعيل الردود الاستباقية وانتظار الطرف الآخر ليبدأ المحادثة؟"],
+  "是": ["是", "是", "Yes", "はい", "예", "ใช่", "Ya", "Oo", "Ya", "Oui", "Ja", "Sì", "Да", "Sí", "Sim", "نعم"],
+  "否": ["否", "否", "No", "いいえ", "아니요", "ไม่", "Tidak", "Hindi", "Tidak", "Non", "Nein", "No", "Нет", "No", "Não", "لا"],
+});
+
 function uiTranslation(text) {
   const code = currentUiLanguage();
   const key = String(text || '').trim();
@@ -12963,6 +12994,7 @@ function normalizeNingziComment(raw, personaIds) {
     wordLayer: clampCodePoints(typeof raw.wordLayer === 'string' ? raw.wordLayer : '', MAX_MESSAGE_TEXT),
     interpretation: clampCodePoints(typeof raw.interpretation === 'string' ? raw.interpretation : '', MAX_INTERPRETATION),
     createdAt: parseIso(raw.createdAt) || nowIso(),
+    closedAt: parseIso(raw.closedAt) || null,
     replies,
   };
 }
@@ -12978,6 +13010,8 @@ function normalizeNingzi(raw) {
     enabled: settingsRaw.enabled !== false,
     fixedProbability: probability,
     setupPrompted: settingsRaw.setupPrompted === true,
+    costNoticeDay: typeof settingsRaw.costNoticeDay === 'string' ? settingsRaw.costNoticeDay : '',
+    costNoticeShown: settingsRaw.costNoticeShown === true,
   };
   base.blacklist = Array.isArray(raw.blacklist)
     ? raw.blacklist.filter(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(id)).slice(0, 500)
@@ -13057,6 +13091,7 @@ function makeChat(nickname, avatar, userAlias = '') {
     rounds: [],
     draft: '',
     proactiveEnabled: false,
+    proactivePromptDismissed: false,
     endedAt: null,
     endedRoundId: null,
     presenceStatus: 'online',
@@ -13314,6 +13349,7 @@ function normalizeChat(raw, usedIds) {
     rounds,
     draft: clampCodePoints(typeof raw.draft === 'string' ? raw.draft : '', MAX_PROMPT),
     proactiveEnabled: raw.proactiveEnabled === true,
+    proactivePromptDismissed: raw.proactivePromptDismissed === true,
     endedAt: parseIso(raw.endedAt),
     endedRoundId: typeof raw.endedRoundId === 'string' ? raw.endedRoundId : null,
     presenceStatus: Object.prototype.hasOwnProperty.call(CHAT_PRESENCE_LABELS, raw.presenceStatus) ? raw.presenceStatus : 'online',
@@ -13323,7 +13359,7 @@ function normalizeChat(raw, usedIds) {
 
 function normalizeMessage(raw, usedIds) {
   if (!isPlainObject(raw)) return null;
-  const isSystemNotice = raw.role === 'system' && ['recall', 'retained', 'hidden', 'busy'].includes(raw.systemKind);
+  const isSystemNotice = raw.role === 'system' && ['recall', 'retained', 'hidden', 'busy', 'offline'].includes(raw.systemKind);
   if (raw.role !== 'user' && raw.role !== 'assistant' && !isSystemNotice) return null;
   const rawText = typeof raw.text === 'string' ? raw.text : '';
   const images = raw.role === 'user' ? normalizeImageList(raw, MAX_CHAT_IMAGES) : [];
@@ -14627,6 +14663,7 @@ const SYSTEM_NOTICE_TEXT = {
   retained: '对方保留了一条消息',
   hidden: '对方藏起了一条消息',
   busy: '对方有些忙碌，请稍后。',
+  offline: '对方可能没有上线',
 };
 
 const CHAT_PRESENCE_INTERVAL_MS = 30 * 60 * 1000;
@@ -14958,7 +14995,8 @@ async function sendPrompt() {
   }
   renderAll({ scrollBottom: true });
   if (secureRandomInt(0, 1) === 0) {
-    appendSystemNotice(chat, 'busy');
+    const noReplyKind = ['offline', 'invisible'].includes(chat.presenceStatus) ? 'offline' : 'busy';
+    appendSystemNotice(chat, noReplyKind);
     return;
   }
   await runRound(chat, { prompt: userMessage.text, proactive: false, hasImage: images.length > 0 });
@@ -15099,6 +15137,25 @@ function renderSidebar(activeChat) {
   }).join('');
 }
 
+function handleChatProactivePrompt(event) {
+  const button = event.target.closest('[data-chat-proactive-answer]');
+  if (!button) return;
+  const chat = getActiveChat();
+  if (!chat) return;
+  const answer = button.getAttribute('data-chat-proactive-answer');
+  chat.proactivePromptDismissed = true;
+  if (answer === 'yes') {
+    chat.proactiveEnabled = true;
+    chat.updatedAt = nowIso();
+    persistState({ quiet: true });
+    renderAll({ preserveScroll: true });
+    showToast(uiTranslation('「{{name}}」主动聊天已开启。').replace('{{name}}', chat.nickname));
+  } else {
+    persistState({ quiet: true });
+    renderAll({ preserveScroll: true });
+  }
+}
+
 function renderHeader(chat) {
   const busy = isChatBusy(chat.id);
   const presence = Object.prototype.hasOwnProperty.call(CHAT_PRESENCE_LABELS, chat.presenceStatus) ? chat.presenceStatus : 'online';
@@ -15106,11 +15163,20 @@ function renderHeader(chat) {
   const status = busy
     ? '<span class="online-dot"></span><span class="online-text">'+escapeHtml(uiTranslation('正在输入'))+'</span><span class="busy-dots" aria-hidden="true"><span></span><span></span><span></span></span>'
     : '<span class="online-dot presence-dot-' + presence + '"></span><span class="online-text presence-' + presence + '">' + escapeHtml(presenceLabel) + '</span>';
+  const presenceNote = !busy && (presence === 'offline' || presence === 'invisible')
+    ? '<div class="chat-presence-note">' + escapeHtml(uiTranslation('对方可能没有上线')) + '</div>'
+    : (!busy && presence === 'busy'
+      ? '<div class="chat-presence-note">' + escapeHtml(uiTranslation('忙碌中')) + '</div>'
+      : '');
   el.chatHeading.innerHTML = ''
     + avatarHTML(chat.avatar, 'avatar-md')
     + '<div class="chat-heading-copy">'
     + '  <div class="chat-heading-name">' + escapeHtml(uiTranslation(chat.nickname)) + '</div>'
     + '  <div class="chat-heading-meta">' + status + '</div>'
+    + presenceNote
+    + (!busy && !chat.proactiveEnabled && !chat.proactivePromptDismissed && ['busy', 'offline', 'invisible'].includes(presence)
+      ? '<div class="chat-proactive-prompt"><span>' + escapeHtml(uiTranslation('是否打开主动回复功能，等待对方主动聊天？')) + '</span><span class="chat-proactive-actions"><button type="button" data-chat-proactive-answer="yes">' + escapeHtml(uiTranslation('是')) + '</button><button type="button" data-chat-proactive-answer="no">' + escapeHtml(uiTranslation('否')) + '</button></span></div>'
+      : '')
     + '</div>';
 }
 
@@ -20098,6 +20164,7 @@ function mountDiaryPage() {
 
 const ningziGeneratingPosts = new Set();
 const ningziGeneratingComments = new Set();
+const ningziReplyingComments = new Set();
 
 function ningziState() {
   if (!state.ningzi || !isPlainObject(state.ningzi)) state.ningzi = freshNingziState();
@@ -20390,14 +20457,17 @@ function ningziCommentHTML(post, comment) {
     + '<div class="ningzi-comment-main">'
     + '  <div class="ningzi-comment-head"><button class="ningzi-comment-name" type="button" data-ningzi-persona="' + escapeAttr(comment.personaId || '') + '">' + escapeHtml(name) + '</button><span class="ningzi-comment-time">' + escapeHtml(formatClock(comment.createdAt)) + '</span></div>'
     + '  <p class="ningzi-comment-text">' + escapeHtml(comment.text) + '</p>'
-    + '  <div class="ningzi-comment-actions"><button type="button" data-ningzi-reply-open="' + escapeAttr(comment.id) + '">' + escapeHtml(uiTranslation('回复')) + '</button></div>'
+    + '  <div class="ningzi-comment-actions">' + (comment.closedAt
+      ? '<span class="ningzi-thread-closed">' + escapeHtml(uiTranslation('对话已结束')) + '</span>'
+      : '<button type="button" data-ningzi-reply-open="' + escapeAttr(comment.id) + '">' + escapeHtml(uiTranslation('回复')) + '</button>') + '</div>'
     + (replies.length
       ? '<div class="ningzi-replies">' + replies.map(reply => '<div class="ningzi-reply"><b>' + escapeHtml(reply.role === 'user' ? userDisplayName() : name) + '：</b>' + escapeHtml(reply.text) + '</div>').join('') + '</div>'
       : '')
-    + '<form class="ningzi-reply-form" data-ningzi-reply-form="' + escapeAttr(comment.id) + '" hidden>'
-    + '  <input type="text" maxlength="' + MAX_NINGZI_REPLY_TEXT + '" placeholder="' + escapeAttr(uiTranslation('回复 {{name}}').replace('{{name}}', name)) + '" autocomplete="off">'
-    + '  <button type="submit">' + escapeHtml(uiTranslation('发送')) + '</button>'
-    + '</form>'
+    + (comment.closedAt ? '<p class="ningzi-thread-end">' + escapeHtml(uiTranslation('对方没有再回复。这次对话停在这里。')) + '</p>' : '')
+    + (comment.closedAt ? '' : '<form class="ningzi-reply-form" data-ningzi-reply-form="' + escapeAttr(comment.id) + '" hidden>'
+      + '  <input type="text" maxlength="' + MAX_NINGZI_REPLY_TEXT + '" placeholder="' + escapeAttr(uiTranslation('回复 {{name}}').replace('{{name}}', name)) + '" autocomplete="off">'
+      + '  <button type="submit">' + escapeHtml(uiTranslation('发送')) + '</button>'
+      + '</form>')
     + '</div></div>';
 }
 
@@ -20625,6 +20695,22 @@ function openNingziCommonRefManager() {
   });
 }
 
+function showNingziCostNotice() {
+  openModal({
+    kind: 'ningzi-cost-warning',
+    kicker: 'API COST',
+    title: uiTranslation('第 10 条朋友圈'),
+    body: '<p class="modal-lead">' + escapeHtml(uiTranslation('今天已经发了 10 条朋友圈。图片生成和评论模型都可能产生服务商费用，请留意 API 账单。')) + '</p>',
+    mount(bodyEl) {
+      const row = document.createElement('div');
+      row.className = 'button-row';
+      row.innerHTML = '<button class="primary-button" type="button" id="ningziCostOk">' + escapeHtml(uiTranslation('知道了')) + '</button>';
+      bodyEl.appendChild(row);
+      row.querySelector('#ningziCostOk').addEventListener('click', closeModal);
+    },
+  });
+}
+
 function createNingziPost() {
   if (!account || ui.ningziComposeBusy) return;
   const textEl = el.pageBody && el.pageBody.querySelector('#ningziText');
@@ -20664,6 +20750,13 @@ function createNingziPost() {
   ui.ningziRoundRefs = [];
   ui.ningziComposeBusy = true;
   persistState({ quiet: true });
+  const today = dayKey(now);
+  const todayCount = ningziState().posts.filter(item => dayKey(item.createdAt) === today).length;
+  if (todayCount === 10 && !ningziState().settings.costNoticeShown) {
+    ningziState().settings.costNoticeShown = true;
+    persistState({ quiet: true });
+    setTimeout(showNingziCostNotice, 350);
+  }
   ningziRefresh(false);
   showToast('动态已发布，正在生成场景');
   generateNingziScene(post).finally(() => {
@@ -21258,19 +21351,33 @@ async function replyToNingziComment(post, comment, text) {
     if (!isModelReady()) showToast('还没有连接文本模型，暂时无法回复', 'notice');
     return;
   }
+  if (comment.closedAt) return;
+  if (ningziReplyingComments.has(comment.id)) return;
   const userText = clampCodePoints(text.trim(), MAX_NINGZI_REPLY_TEXT);
   if (!userText) return;
-  comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
-  comment.replies.push({ id: uid('nreply'), role: 'user', text: userText, createdAt: nowIso() });
-  const persona = ningziPersonaById(comment.personaId);
-  if (persona) {
-    persona.fixed = true;
-    persona.source = persona.source === 'friend' ? 'friend' : 'reply';
-  }
-  persistState({ quiet: true });
-  ningziRefresh();
-  if (!persona) return;
+
+  ningziReplyingComments.add(comment.id);
   try {
+    comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
+    comment.replies.push({ id: uid('nreply'), role: 'user', text: userText, createdAt: nowIso() });
+    const persona = ningziPersonaById(comment.personaId);
+    if (persona) {
+      persona.fixed = true;
+      persona.source = persona.source === 'friend' ? 'friend' : 'reply';
+    }
+    persistState({ quiet: true });
+    if (ui.page === 'ningzi') ningziRefresh();
+
+    // Anti-disturb: 30% continue, 70% end this thread.
+    if (secureRandomInt(0, 9) >= 3) {
+      comment.closedAt = nowIso();
+      persistState({ quiet: true });
+      if (ui.page === 'ningzi') ningziRefresh();
+      showToast(uiTranslation('对方没有再回复。这次对话停在这里。'), 'notice');
+      return;
+    }
+
+    if (!persona) return;
     const result = await ningziModelComment(persona, post, {
       isReply: true,
       threadContext: ningziThreadContext(comment),
@@ -21299,6 +21406,7 @@ async function replyToNingziComment(post, comment, text) {
   } catch (err) {
     showToast('回复生成失败：' + (err && err.message ? err.message : '请稍后重试'), 'error');
   } finally {
+    ningziReplyingComments.delete(comment.id);
     if (ui.page === 'ningzi') ningziRefresh();
   }
 }
@@ -21903,6 +22011,10 @@ function startProactiveScheduler() {
 
 function initApp() {
   cacheElements();
+  if (el.chatHeading && !el.chatHeading.dataset.proactivePromptBound) {
+    el.chatHeading.dataset.proactivePromptBound = '1';
+    el.chatHeading.addEventListener('click', handleChatProactivePrompt);
+  }
   renderProfileChip();
   state = loadState();
   applySkin();
