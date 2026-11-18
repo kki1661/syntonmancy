@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>字势静兼 / Syntonmancy — 下载</title>
-<meta name="description" content="字势静兼 / Syntonmancy 2.1.7：纯本地的得字解句聊天应用，新增凝兹朋友圈。Windows、Android 与网页版下载。">
+<meta name="description" content="字势静兼 / Syntonmancy 2.1.8：纯本地的得字解句聊天应用，新增凝兹朋友圈与主动聊天提示。Windows、Android 与网页版下载。">
 <style>
   :root{
     --ink:#1d2a24; --ink-soft:#4f6157; --muted:#77877d;
@@ -122,6 +122,10 @@
   @media (max-width:760px){.ningzi-panel{grid-template-columns:1fr}.ningzi-copy{padding:24px}.ningzi-side{padding:24px}.ningzi-points{grid-template-columns:1fr}}
 
   .hero .hero-ningzi{color:var(--gold-soft);font-size:13px;margin-top:-16px;margin-bottom:28px;max-width:620px}
+
+  .update-strip{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:16px}
+  .update-strip span{font-size:10px;letter-spacing:.08em;color:var(--cinnabar);border:1px solid rgba(183,93,69,.28);background:rgba(183,93,69,.06);border-radius:999px;padding:4px 9px}
+  .update-strip b{font-size:10px;font-weight:500;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:4px 9px;background:rgba(255,255,255,.4)}
 </style>
 </head>
 <body>
@@ -142,12 +146,12 @@
       </div>
     </nav>
     <div class="hero-inner">
-      <span class="kicker"><i class="dot"></i> VERSION 2.1.7 · LOCAL-FIRST</span>
+      <span class="kicker"><i class="dot"></i> VERSION 2.1.8 · LOCAL-FIRST</span>
       <h1>把想说的话，<br>放进一小段时间里。</h1>
       <p>字势静兼是一个纯本地的得字解句聊天应用。每轮从三千个汉字中得字，先把字组起来，再把字义写成回复；不依赖云端账户，也不需要长程聊天记忆。</p>
-      <p class="hero-ningzi">2.1.7 新增「凝兹朋友圈」：写下一条动态，让场景图与评论在本地慢慢长出来。</p>
+      <p class="hero-ningzi">2.1.8 新增「凝兹朋友圈」与主动聊天提示：让场景图和评论在本地慢慢长出来，也让沉默有一个清楚的解释。</p>
       <div class="actions">
-        <a class="btn btn-primary" href="#download">下载 2.1.7</a>
+        <a class="btn btn-primary" href="#download">下载 2.1.8</a>
         <a class="btn btn-ghost" href="app/hanzi-oracle.html" target="_blank" rel="noopener">在浏览器中打开</a>
         <a class="btn btn-ghost" href="https://github.com/kki1661/syntonmancy">查看源码</a>
       </div>
@@ -162,7 +166,7 @@
 
   <section id="ningzi" class="ningzi-release">
     <div class="section-head">
-      <h2>2.1.7 · 凝兹朋友圈</h2>
+      <h2>2.1.8 · 凝兹朋友圈</h2>
       <p>不是社交平台，是一条只在本地发生的动态。</p>
     </div>
     <div class="ningzi-panel">
@@ -179,6 +183,7 @@
           <li><b>有边界的虚拟关系：</b>评论者有自己的名字、签名和来处，但它们不是现实中的真人。</li>
         </ul>
         <p class="ningzi-note">凝兹朋友圈是字势静兼内部的虚拟模块。它不会替你联系真人，也不会把动态发布到任何真实社交平台。</p>
+        <div class="update-strip"><span>2.1.8 更新</span><b>主动聊天提示</b><b>评论 30% / 70% 防扰</b><b>第 10 条朋友圈费用提醒</b></div>
       </div>
       <aside class="ningzi-side">
         <span class="ningzi-eyebrow">A CROSS-DIMENSIONAL MOMENTS FEED</span>
@@ -196,14 +201,14 @@
   <section id="download">
     <div class="section-head">
       <h2>选择你的版本</h2>
-      <p>当前发布：2.1.7 · 2026-11-18</p>
+      <p>当前发布：2.1.8 · 2026-11-19</p>
     </div>
     <div class="grid">
       <article class="card">
         <div class="card-top"><h3>Windows</h3><span class="badge hot">推荐</span></div>
         <p>解压后运行便携版；不需要安装，也不需要管理员权限。</p>
         <ul class="facts"><li>ZIP 便携包</li><li>约 160 MB</li><li>免安装</li></ul>
-        <a class="btn btn-line" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.7/Syntonmancy-2.1.7-Windows-Portable.zip">下载便携版 ZIP</a>
+        <a class="btn btn-line" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.8/Syntonmancy-2.1.8-Windows-Portable.zip">下载便携版 ZIP</a>
         <p class="note">下载 ZIP 后先右键 ZIP → 属性 → 勾选“解除锁定” → 应用，再解压；首次运行如被 SmartScreen 提示，点“更多信息”→“仍要运行”。</p>
       </article>
 
@@ -211,7 +216,7 @@
         <div class="card-top"><h3>Android</h3><span class="badge">release 签名</span></div>
         <p>适用于 Android 7.0 及以上。通过系统文件管理器侧载；首次安装需要允许“安装未知应用”。本版支持把备份直接导出到 <code>Download/Syntonmancy</code>。</p>
         <ul class="facts"><li>.apk</li><li>约 1 MB</li><li>arm64 / x86 通用</li></ul>
-        <a class="btn btn-dark" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.7/Syntonmancy-2.1.7-Android-release.apk">下载 Android APK</a>
+        <a class="btn btn-dark" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.8/Syntonmancy-2.1.8-Android-release.apk">下载 Android APK</a>
         <p class="note">如果装过旧 debug 版，请先卸载旧版（签名不同），再安装本版。</p>
       </article>
 
@@ -265,9 +270,9 @@
     <div class="section-head"><h2>校验</h2><p>下载后可对照 SHA-256</p></div>
     <details>
       <summary>展开 SHA-256</summary>
-      <p>Windows 便携版 <span class="hash"><code>c4e29578a1bbcb45189ee8ad52021b52f89eb5963d5fa2f33ae03e6e54fd17a8</code></span></p>
-      <p>Android APK <span class="hash"><code>e9d25d1e8cd76b70b32604f881490cfe67d23080bafc76d9b2a3c45eed1cd7f9</code></span></p>
-      <p>应用本体 <span class="hash"><code>2aa7519c0ae055debed6bc485e57e2ab03465c340c45257deb7c6d80f85ae1f9</code></span></p>
+      <p>Windows 便携版 <span class="hash"><code>bb653a4f145f6dfc72f7da238127fc40afb63fcee5021723c0149db819c5fb39</code></span></p>
+      <p>Android APK <span class="hash"><code>418adff7d93120ed0a1e5e6ac2392212ff47702289096f9cd60b64eeccd98ea4</code></span></p>
+      <p>应用本体 <span class="hash"><code>1770654ac4167e86b55cbd3990284e0532b104249afaf1cce14dcb8b8d8d0adc</code></span></p>
       <p>校验方法：Windows 可用 <code>Get-FileHash -Algorithm SHA256 文件</code>；macOS/Linux 可用 <code>shasum -a 256 文件</code>。</p>
     </details>
   </section>
@@ -275,7 +280,7 @@
 
 <footer>
   <div class="wrap">
-    <span>字势静兼 / Syntonmancy 2.1.7 · © 2026 字势静兼作者</span>
+    <span>字势静兼 / Syntonmancy 2.1.8 · © 2026 字势静兼作者</span>
     <span>代码 GPL-3.0-only · 论文 CC BY 4.0 · 文档 Apache-2.0</span>
     <span><a href="https://github.com/kki1661/syntonmancy">GitHub</a> · <a href="https://doi.org/10.5281/zenodo.24252070">Zenodo</a></span>
   </div>
