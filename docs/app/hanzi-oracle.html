@@ -5369,10 +5369,11 @@ html[data-skin] .brand-seal{background:transparent!important;border-color:transp
   position:absolute;left:50%;top:50%;max-width:none;max-height:none;
   transform-origin:center;pointer-events:none;user-select:none;-webkit-user-drag:none;
 }
-.avatar-crop-controls{display:flex;align-items:center;gap:9px;margin-top:13px}
+.avatar-crop-controls{display:flex;align-items:center;justify-content:flex-end;gap:9px;margin-top:11px}
+
 .avatar-crop-controls label{font-size:9px;color:var(--muted,#77877d);white-space:nowrap}
-.avatar-crop-controls input[type="range"]{width:100%;accent-color:var(--social-deep,#336957)}
-.avatar-crop-controls button{border:1px solid var(--theme-border,rgba(35,52,42,.14));border-radius:8px;background:transparent;color:var(--ink-soft,#4f6157);font-size:9px;padding:5px 8px;white-space:nowrap}
+.avatar-crop-controls button{border:1px solid var(--theme-border,rgba(35,52,42,.14));border-radius:8px;background:transparent;color:var(--ink-soft,#4f6157);font-size:9px;padding:5px 9px;white-space:nowrap}
+.avatar-crop-hint{font-size:9px;color:var(--muted,#77877d);letter-spacing:.02em}
 .avatar-crop-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
 .avatar-crop-actions .primary-button,.avatar-crop-actions .secondary-button{min-height:34px;font-size:10px}
 @media (max-width:420px){
@@ -5439,6 +5440,27 @@ html[data-skin="midnight"] .ningzi-cover{background:linear-gradient(145deg,#080d
 .chat-profile-signature{margin:18px 0;padding:16px 18px;border:1px solid var(--theme-border);border-radius:13px;background:var(--theme-soft)}
 .chat-profile-signature span{display:block;font-size:9px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
 .chat-profile-signature p{margin:0;font-family:var(--serif);font-size:19px;line-height:1.75;color:var(--ink)}
+
+.ningzi-card-actions{display:flex;gap:6px;margin-left:auto;align-items:center}
+.ningzi-card-actions button{border:1px solid var(--theme-border);background:transparent;color:var(--muted);border-radius:999px;padding:3px 8px;font-size:9px;line-height:1.4;cursor:pointer;white-space:nowrap}
+.ningzi-card-actions button:hover{color:var(--ink);border-color:var(--social-line)}
+.ningzi-card-actions button[data-ningzi-delete-post]{color:var(--cinnabar);border-color:rgba(183,93,69,.25)}
+#ningziRegenCommon,#ningziRegenRound{margin-bottom:12px}
+
+.collection-name{cursor:pointer;display:flex;align-items:center;gap:6px}
+.collection-chevron{display:inline-block;width:12px;color:var(--muted);font-size:11px;line-height:1}
+.collection-name:hover .collection-chevron{color:var(--ink)}
+
+.diary-comment-actions{margin-top:5px}
+.diary-comment-actions button{border:0;background:transparent;color:var(--muted);font-size:9px;padding:0;cursor:pointer}
+.diary-comment-actions button:hover{color:var(--social-deep)}
+.diary-replies{margin-top:6px;padding:6px 8px;border-left:2px solid var(--theme-border);background:rgba(0,0,0,.02);border-radius:0 6px 6px 0}
+.diary-reply{font-size:9px;line-height:1.7;color:var(--ink-soft);overflow-wrap:anywhere}
+.diary-reply b{color:var(--muted);font-weight:500}
+.diary-reply-form{display:flex;gap:5px;margin-top:6px}
+.diary-reply-form[hidden]{display:none}
+.diary-reply-form input{flex:1;min-width:0;border:1px solid var(--theme-border);border-radius:6px;background:transparent;color:var(--ink);font-size:9px;padding:4px 6px}
+.diary-reply-form button{border:1px solid var(--theme-border);border-radius:6px;background:transparent;color:var(--ink-soft);font-size:9px;padding:4px 7px}
 </style>
 <script id="skin-boot">
 try {
@@ -5894,6 +5916,22 @@ const USER_NAME_ROOT_CHANCE = 15;
 const SCHEMA_VERSION = 4;
 const BACKUP_FORMAT = 'zijian-backup';
 const BACKUP_FOLDER_KEY = 'zijian.backupFolder.v1';
+const IMAGE_SAVE_FOLDER_KEY = 'zijian.imageSaveFolder.v1';
+
+function imageSaveFolder() {
+  try { return localStorage.getItem(IMAGE_SAVE_FOLDER_KEY) || ''; } catch (err) { return ''; }
+}
+
+function setImageSaveFolder(folder) {
+  try {
+    if (folder) localStorage.setItem(IMAGE_SAVE_FOLDER_KEY, String(folder));
+    else localStorage.removeItem(IMAGE_SAVE_FOLDER_KEY);
+  } catch (err) { /* ignore */ }
+}
+
+function imageSaveFolderLabel() {
+  return imageSaveFolder() || uiTranslation('系统下载目录');
+}
 const MAX_PROMPT = 30000;
 const MAX_MESSAGE_TEXT = 60000;
 const MAX_INTERPRETATION = 12000;
@@ -11944,6 +11982,50 @@ addMissingUiText({
   "打开聊天": ["打开聊天", "開啟聊天", "Open chat", "チャットを開く", "채팅 열기", "เปิดแชท", "Buka obrolan", "Buksan ang chat", "Buka sembang", "Ouvrir la discussion", "Chat öffnen", "Apri chat", "Открыть чат", "Abrir chat", "Abrir conversa", "فتح المحادثة"],
 });
 
+addMissingUiText({
+  "自动备份和手动备份各保留最近 3 份。应用内备份槽只保留最新一份。": ["自动备份和手动备份各保留最近 3 份。应用内备份槽只保留最新一份。", "自動備份和手動備份各保留最近 3 份。應用程式內備份槽只保留最新一份。", "Auto and manual backups each keep the latest 3 files. The in-app backup slot keeps only the newest copy.", "自動バックアップと手動バックアップはそれぞれ最新 3 份まで保持します。アプリ内のバックアップスロットは最新 1 份のみ保持します。", "자동 및 수동 백업은 각각 최신 3개 파일을 보관합니다. 앱 내 백업 슬롯은 최신 1개만 보관합니다.", "การสำรองอัตโนมัติและด้วยมือเก็บไฟล์ล่าสุดประเภทละ 3 ไฟล์ ช่องสำรองในแอปเก็บเฉพาะไฟล์ล่าสุดเท่านั้น", "Cadangan otomatis dan manual masing-masing menyimpan 3 file terbaru. Slot cadangan di aplikasi hanya menyimpan salinan terbaru.", "Ang auto at manual backup ay nag-iingat ng huling 3 file bawat isa. Ang backup slot sa app ay nag-iingat lamang ng pinakabago.", "Sandaran automatik dan manual masing-masing menyimpan 3 fail terbaharu. Slot sandaran dalam aplikasi hanya menyimpan salinan terbaharu.", "Les sauvegardes automatiques et manuelles conservent chacune les 3 derniers fichiers. L’emplacement de sauvegarde de l’application ne garde que la copie la plus récente.", "Automatische und manuelle Sicherungen behalten jeweils die letzten 3 Dateien. Der Sicherungsplatz in der App behält nur die neueste Kopie.", "I backup automatici e manuali conservano ciascuno gli ultimi 3 file. Lo slot di backup nell’app conserva solo la copia più recente.", "Автоматические и ручные копии хранят по 3 последних файла. Слот в приложении хранит только последнюю копию.", "Las copias automáticas y manuales conservan los 3 archivos más recientes cada una. La ranura de la app solo guarda la copia más nueva.", "Os backups automáticos e manuais mantêm os 3 arquivos mais recentes de cada tipo. O slot do app guarda apenas a cópia mais nova.", "يحتفظ النسخ التلقائي واليدوي بأحدث 3 ملفات لكل منهما. وتحتفظ خانة النسخ في التطبيق بأحدث نسخة فقط."],
+});
+
+addMissingUiText({
+  "重新生成照片": ["重新生成照片", "重新生成照片", "Regenerate photo", "写真を再生成", "사진 다시 생성", "สร้างรูปภาพใหม่", "Buat ulang foto", "Gawing muli ang larawan", "Jana semula foto", "Régénérer la photo", "Foto neu generieren", "Rigenera foto", "Создать фото заново", "Regenerar foto", "Gerar foto novamente", "إعادة إنشاء الصورة"],
+  "保存并重新生成": ["保存并重新生成", "儲存並重新生成", "Save and regenerate", "保存して再生成", "저장 후 다시 생성", "บันทึกและสร้างใหม่", "Simpan dan buat ulang", "I-save at gawing muli", "Simpan dan jana semula", "Enregistrer et régénérer", "Speichern und neu generieren", "Salva e rigenera", "Сохранить и создать заново", "Guardar y regenerar", "Salvar e gerar novamente", "حفظ وإعادة الإنشاء"],
+  "删除朋友圈": ["删除朋友圈", "刪除朋友圈", "Delete moment", "モーメントを削除", "모먼트 삭제", "ลบโมเมนต์", "Hapus momen", "Burahin ang moment", "Padam momen", "Supprimer le moment", "Moment löschen", "Elimina momento", "Удалить момент", "Eliminar momento", "Excluir momento", "حذف اللحظة"],
+  "删除这条朋友圈？": ["删除这条朋友圈？", "刪除這條朋友圈？", "Delete this moment?", "このモーメントを削除しますか？", "이 모먼트를 삭제할까요?", "ลบโมเมนต์นี้หรือไม่?", "Hapus momen ini?", "Burahin ang moment na ito?", "Padam momen ini?", "Supprimer ce moment ?", "Diesen Moment löschen?", "Eliminare questo momento?", "Удалить этот момент?", "¿Eliminar este momento?", "Excluir este momento?", "حذف هذه اللحظة؟"],
+  "这条动态和它下面的评论会从本机删除。": ["这条动态和它下面的评论会从本机删除。", "這條動態和它下面的評論會從本機刪除。", "This moment and its comments will be deleted from this device.", "このモーメントとそのコメントは本機から削除されます。", "이 모먼트와 댓글이 이 기기에서 삭제됩니다.", "โมเมนต์นี้และความคิดเห็นจะถูกลบออกจากเครื่องนี้", "Momen ini dan komentarnya akan dihapus dari perangkat ini.", "Buburahin sa device na ito ang moment at mga komento nito.", "Momen ini dan komennya akan dipadam dari peranti ini.", "Ce moment et ses commentaires seront supprimés de cet appareil.", "Dieser Moment und seine Kommentare werden von diesem Gerät gelöscht.", "Questo momento e i suoi commenti verranno eliminati da questo dispositivo.", "Этот момент и комментарии к нему будут удалены с устройства.", "Este momento y sus comentarios se eliminarán de este dispositivo.", "Este momento e seus comentários serão excluídos deste dispositivo.", "ستُحذف هذه اللحظة وتعليقاتها من هذا الجهاز."],
+  "这个操作无法撤销。": ["这个操作无法撤销。", "這個操作無法撤銷。", "This action cannot be undone.", "この操作は元に戻せません。", "이 작업은 취소할 수 없습니다.", "ไม่สามารถเลิกทำได้", "Tindakan ini tidak dapat dibatalkan.", "Hindi na ito maibabalik.", "Tindakan ini tidak boleh dibatalkan.", "Cette action est irréversible.", "Diese Aktion kann nicht rückgängig gemacht werden.", "Questa azione non può essere annullata.", "Это действие нельзя отменить.", "Esta acción no se puede deshacer.", "Esta ação não pode ser desfeita.", "لا يمكن التراجع عن هذا الإجراء."],
+  "已删除朋友圈": ["已删除朋友圈", "已刪除朋友圈", "Moment deleted", "モーメントを削除しました", "모먼트를 삭제했습니다", "ลบโมเมนต์แล้ว", "Momen dihapus", "Nabura na ang moment", "Momen dipadam", "Moment supprimé", "Moment gelöscht", "Momento eliminato", "Момент удалён", "Momento eliminado", "Momento excluído", "تم حذف اللحظة"],
+  "这张照片还在生成中": ["这张照片还在生成中", "這張照片還在生成中", "This photo is still being generated", "この写真はまだ生成中です", "이 사진은 아직 생성 중입니다", "รูปนี้ยังสร้างอยู่", "Foto ini masih dibuat", "Ginagawa pa ang larawang ito", "Foto ini masih dijana", "Cette photo est encore en cours de génération", "Dieses Foto wird noch generiert", "Questa foto è ancora in generazione", "Это фото ещё создаётся", "Esta foto aún se está generando", "Esta foto ainda está sendo gerada", "لا تزال هذه الصورة قيد الإنشاء"],
+  "最多 3 张本轮参考": ["最多 3 张本轮参考", "最多 3 張本輪參考", "Up to 3 references for this round", "今回の参考は最大 3 枚", "이번 라운드 참고는 최대 3장", "อ้างอิงรอบนี้สูงสุด 3 รูป", "Maksimal 3 referensi untuk putaran ini", "Hanggang 3 reference sa round na ito", "Maksimum 3 rujukan untuk pusingan ini", "Jusqu’à 3 références pour ce tour", "Bis zu 3 Referenzen für diese Runde", "Fino a 3 riferimenti per questo turno", "До 3 референсов на этот раунд", "Hasta 3 referencias para esta ronda", "Até 3 referências para esta rodada", "حتى 3 مراجع لهذه الجولة"],
+});
+
+addMissingUiText({
+  "单指拖动调整位置，双指缩放。头像会裁成正方形。": ["单指拖动调整位置，双指缩放。头像会裁成正方形。", "單指拖動調整位置，雙指縮放。頭像會裁成正方形。", "Drag with one finger and pinch with two. The avatar will be cropped to a square.", "一指で移動、二本指で拡大縮小。アバターは正方形に切り抜かれます。", "한 손가락으로 이동하고 두 손가락으로 확대/축소하세요. 아바타는 정사각형으로 잘립니다.", "ลากด้วยนิ้วเดียวและหุบ/ขยายด้วยสองนิ้ว อวตารจะถูกครอปเป็นสี่เหลี่ยม", "Geser dengan satu jari dan cubit dengan dua jari. Avatar akan dipotong menjadi persegi.", "I-drag gamit ang isang daliri at i-pinch gamit ang dalawa. Gagawing parisukat ang avatar.", "Seret dengan satu jari dan cubit dengan dua jari. Avatar akan dipangkas menjadi segi empat sama.", "Faites glisser avec un doigt et pincez avec deux. L’avatar sera recadré en carré.", "Mit einem Finger ziehen und mit zwei Fingern zoomen. Der Avatar wird quadratisch zugeschnitten.", "Trascina con un dito e pizzica con due. L’avatar verrà ritagliato in un quadrato.", "Перетаскивайте одним пальцем и масштабируйте двумя. Аватар будет обрезан до квадрата.", "Arrastra con un dedo y pellizca con dos. El avatar se recortará en un cuadrado.", "Arraste com um dedo e faça pinça com dois. O avatar será recortado em um quadrado.", "اسحب بإصبع واحد واقرص بإصبعين. سيتم قص الصورة الرمزية إلى مربع."],
+  "单指移动 · 双指缩放": ["单指移动 · 双指缩放", "單指移動 · 雙指縮放", "One finger to move · two to pinch", "一指で移動 · 二本指で拡大縮小", "한 손가락 이동 · 두 손가락 확대/축소", "นิ้วเดียวเลื่อน · สองนิ้วซูม", "Satu jari geser · dua jari cubit", "Isang daliri sa paggalaw · dalawa sa pag-pinch", "Satu jari gerak · dua jari cubit", "Un doigt pour déplacer · deux pour pincer", "Ein Finger zum Bewegen · zwei zum Zoomen", "Un dito per spostare · due per pizzicare", "Один палец — движение · два — масштаб", "Un dedo para mover · dos para pellizcar", "Um dedo para mover · dois para pinçar", "إصبع للتحريك · إصبعان للتكبير"],
+});
+
+addMissingUiText({
+  "先写一句回复": ["先写一句回复", "先寫一句回覆", "Write a reply first", "先に返信を書いてください", "먼저 답장을 적어 주세요", "เขียนตอบกลับก่อน", "Tulis balasan dulu", "Sumulat muna ng sagot", "Tulis balasan dahulu", "Écrivez d’abord une réponse", "Schreibe zuerst eine Antwort", "Scrivi prima una risposta", "Сначала напишите ответ", "Escribe primero una respuesta", "Escreva uma resposta primeiro", "اكتب ردًا أولًا"],
+  "这条回复没有生成成功，可以稍后再试": ["这条回复没有生成成功，可以稍后再试", "這條回覆沒有生成成功，可以稍後再試", "This reply was not generated. Try again later.", "この返信を生成できませんでした。後でもう一度お試しください。", "이 답장을 생성하지 못했습니다. 나중에 다시 시도해 주세요.", "ไม่สามารถสร้างการตอบกลับนี้ได้ โปรดลองใหม่ภายหลัง", "Balasan ini tidak berhasil dibuat. Coba lagi nanti.", "Hindi nagawa ang sagot na ito. Subukan mamaya.", "Balasan ini tidak dijana. Cuba lagi nanti.", "Cette réponse n’a pas pu être générée. Réessayez plus tard.", "Diese Antwort konnte nicht erzeugt werden. Versuche es später erneut.", "Non è stato possibile generare questa risposta. Riprova più tardi.", "Не удалось создать ответ. Попробуйте позже.", "No se pudo generar esta respuesta. Inténtalo más tarde.", "Não foi possível gerar esta resposta. Tente mais tarde.", "لم يتم إنشاء هذا الرد. حاول لاحقًا."],
+});
+
+addMissingUiText({
+  "导出到手机 Download": ["导出到手机 Download", "匯出到手機 Download", "Export to phone Download", "スマホの Download に書き出す", "휴대폰 Download로 내보내기", "ส่งออกไปยัง Download ของโทรศัพท์", "Ekspor ke Download ponsel", "I-export sa Download ng telepono", "Eksport ke Download telefon", "Exporter vers Download du téléphone", "Auf Handy-Download exportieren", "Esporta in Download del telefono", "Экспортировать в Download телефона", "Exportar a Download del teléfono", "Exportar para Download do celular", "تصدير إلى Download الهاتف"],
+  "分享备份到手机": ["分享备份到手机", "分享備份到手機", "Share backup to phone", "バックアップをスマホに共有", "휴대폰으로 백업 공유", "แชร์แบ็กอัปไปยังโทรศัพท์", "Bagikan cadangan ke ponsel", "Ibahagi ang backup sa telepono", "Kongsi sandaran ke telefon", "Partager la sauvegarde sur le téléphone", "Sicherung auf Handy teilen", "Condividi backup sul telefono", "Поделиться копией на телефоне", "Compartir copia en el teléfono", "Compartilhar backup no celular", "مشاركة النسخة الاحتياطية إلى الهاتف"],
+  "Android 10 及以上会保存到手机内部存储的 Download/Syntonmancy/，可直接在“文件”或“下载”里找到。": ["Android 10 及以上会保存到手机内部存储的 Download/Syntonmancy/，可直接在“文件”或“下载”里找到。", "Android 10 以上會儲存到手機內部儲存的 Download/Syntonmancy/，可直接在「檔案」或「下載」裡找到。", "On Android 10 and later, the backup is saved to Download/Syntonmancy/ in internal storage and can be found directly in Files or Downloads.", "Android 10 以降では、内部ストレージの Download/Syntonmancy/ に保存され、「ファイル」または「ダウンロード」から直接見つけられます。", "Android 10 이상에서는 내부 저장소의 Download/Syntonmancy/에 저장되며 파일 또는 다운로드에서 바로 찾을 수 있습니다.", "Android 10 ขึ้นไปจะบันทึกไปที่ Download/Syntonmancy/ ในหน่วยความจำภายใน และค้นหาได้ในไฟล์หรือดาวน์โหลด", "Pada Android 10 ke atas, cadangan disimpan di Download/Syntonmancy/ pada penyimpanan internal dan dapat ditemukan di Files atau Downloads.", "Sa Android 10 pataas, naka-save ang backup sa Download/Syntonmancy/ sa internal storage at makikita sa Files o Downloads.", "Pada Android 10 dan ke atas, sandaran disimpan ke Download/Syntonmancy/ dalam storan dalaman dan boleh ditemui dalam Files atau Downloads.", "Sous Android 10 et versions ultérieures, la sauvegarde est enregistrée dans Download/Syntonmancy/ du stockage interne et se trouve directement dans Fichiers ou Téléchargements.", "Unter Android 10 oder neuer wird die Sicherung unter Download/Syntonmancy/ im internen Speicher gespeichert und ist direkt in Dateien oder Downloads zu finden.", "Su Android 10 e versioni successive, il backup viene salvato in Download/Syntonmancy/ nella memoria interna e si trova in File o Download.", "В Android 10 и новее копия сохраняется в Download/Syntonmancy/ во внутренней памяти и доступна в «Файлах» или «Загрузках».", "En Android 10 o posterior, la copia se guarda en Download/Syntonmancy/ del almacenamiento interno y se puede encontrar en Archivos o Descargas.", "No Android 10 ou posterior, o backup é salvo em Download/Syntonmancy/ no armazenamento interno e pode ser encontrado em Arquivos ou Downloads.", "في Android 10 أو أحدث، تُحفظ النسخة الاحتياطية في Download/Syntonmancy/ بالتخزين الداخلي ويمكن العثور عليها في الملفات أو التنزيلات."],
+  "分享会先把备份写入应用私有 backups 目录，再打开 Android 分享面板；可发送到微信文件传输助手、网盘或文件管理器。": ["分享会先把备份写入应用私有 backups 目录，再打开 Android 分享面板；可发送到微信文件传输助手、网盘或文件管理器。", "分享會先把備份寫入應用程式私有 backups 目錄，再開啟 Android 分享面板；可傳送到微信檔案傳輸助手、雲端硬碟或檔案管理器。", "Sharing first writes the backup to the app-private backups folder, then opens the Android share sheet. You can send it to WeChat File Transfer, cloud storage, or a file manager.", "共有すると、まずアプリ専用の backups フォルダーにバックアップを書き込み、Android の共有画面を開きます。WeChat のファイル転送、クラウドストレージ、ファイルマネージャーに送れます。", "공유하면 먼저 앱 전용 backups 폴더에 백업을 저장한 뒤 Android 공유 화면을 엽니다. WeChat 파일 전송, 클라우드 저장소 또는 파일 관리자로 보낼 수 있습니다.", "การแชร์จะเขียนแบ็กอัปไปยังโฟลเดอร์ backups ส่วนตัวของแอป แล้วเปิดแผงแชร์ของ Android สามารถส่งไปยัง WeChat File Transfer, คลาวด์ หรือตัวจัดการไฟล์", "Berbagi akan menulis cadangan ke folder backups privat aplikasi, lalu membuka panel berbagi Android. Anda dapat mengirimnya ke WeChat File Transfer, penyimpanan cloud, atau pengelola file.", "Isusulat muna ng pagbabahagi ang backup sa pribadong backups folder ng app, pagkatapos ay bubuksan ang Android share sheet. Maaari mo itong ipadala sa WeChat File Transfer, cloud storage, o file manager.", "Perkongsian akan menulis sandaran ke folder backups peribadi aplikasi, kemudian membuka panel kongsi Android. Anda boleh menghantarnya ke WeChat File Transfer, storan awan atau pengurus fail.", "Le partage écrit d’abord la sauvegarde dans le dossier privé backups de l’application, puis ouvre le panneau de partage Android. Vous pouvez l’envoyer vers WeChat Transfert de fichiers, le cloud ou un gestionnaire de fichiers.", "Beim Teilen wird die Sicherung zuerst im app-privaten backups-Ordner gespeichert und dann das Android-Teilen-Menü geöffnet. Du kannst sie an WeChat Dateitransfer, Cloud-Speicher oder einen Dateimanager senden.", "La condivisione scrive prima il backup nella cartella privata backups dell’app, poi apre il pannello di condivisione Android. Puoi inviarlo a WeChat Trasferimento file, cloud o un gestore file.", "При отправке копия сначала записывается в приватную папку backups приложения, затем открывается меню sharing Android. Её можно отправить в WeChat File Transfer, облако или файловый менеджер.", "Al compartir, la copia se guarda primero en la carpeta privada backups de la app y luego se abre el panel de compartir de Android. Puedes enviarla a WeChat Transferencia de archivos, nube o un gestor de archivos.", "Ao compartilhar, o backup é gravado primeiro na pasta privada backups do app e depois o painel de compartilhamento do Android é aberto. Você pode enviá-lo para WeChat Transferência de arquivos, nuvem ou gerenciador de arquivos.", "عند المشاركة، تُكتب النسخة الاحتياطية أولًا في مجلد backups الخاص بالتطبيق، ثم تُفتح لوحة المشاركة في Android. يمكنك إرسالها إلى WeChat لنقل الملفات أو التخزين السحابي أو مدير الملفات."],
+});
+
+addMissingUiText({
+  "图片保存位置": ["图片保存位置", "圖片儲存位置", "Image save location", "画像の保存先", "이미지 저장 위치", "ตำแหน่งบันทึกภาพ", "Lokasi simpan gambar", "Lokasyon ng pag-save ng larawan", "Lokasi simpan imej", "Emplacement d’enregistrement des images", "Speicherort für Bilder", "Posizione di salvataggio immagini", "Место сохранения изображений", "Ubicación para guardar imágenes", "Local de salvamento das imagens", "موقع حفظ الصور"],
+  "更改图片保存位置": ["更改图片保存位置", "變更圖片儲存位置", "Change image save location", "画像の保存先を変更", "이미지 저장 위치 변경", "เปลี่ยนตำแหน่งบันทึกภาพ", "Ubah lokasi simpan gambar", "Palitan ang lokasyon ng pag-save", "Tukar lokasi simpan imej", "Changer l’emplacement des images", "Bildspeicherort ändern", "Cambia posizione immagini", "Изменить место сохранения", "Cambiar ubicación de imágenes", "Alterar local das imagens", "تغيير موقع حفظ الصور"],
+  "系统下载目录": ["系统下载目录", "系統下載目錄", "System Downloads folder", "システムのダウンロードフォルダー", "시스템 다운로드 폴더", "โฟลเดอร์ดาวน์โหลดของระบบ", "Folder Download sistem", "System Downloads folder", "Folder Muat Turun sistem", "Dossier Téléchargements du système", "System-Downloadordner", "Cartella Download di sistema", "Системная папка загрузок", "Carpeta Descargas del sistema", "Pasta Downloads do sistema", "مجلد التنزيلات في النظام"],
+  "长按图片保存时会使用这个位置。网页版由浏览器决定下载位置。": ["长按图片保存时会使用这个位置。网页版由浏览器决定下载位置。", "長按圖片儲存時會使用這個位置。網頁版由瀏覽器決定下載位置。", "Long-pressing to save an image uses this location. In the web version, the browser decides where downloads go.", "長押しで画像を保存するとき、この場所を使います。Web 版ではブラウザがダウンロード先を決めます。", "길게 눌러 이미지를 저장할 때 이 위치를 사용합니다. 웹 버전에서는 브라우저가 다운로드 위치를 결정합니다.", "เมื่อกดค้างเพื่อบันทึกภาพจะใช้ตำแหน่งนี้ เว็บเบราว์เซอร์เป็นผู้กำหนดตำแหน่งดาวน์โหลด", "Menekan lama untuk menyimpan gambar menggunakan lokasi ini. Di versi web, browser menentukan lokasi unduhan.", "Ginagamit ang lokasyong ito kapag pinindot nang matagal para i-save ang larawan. Sa web version, browser ang pumipili ng download location.", "Menekan lama untuk menyimpan imej menggunakan lokasi ini. Dalam versi web, pelayar menentukan lokasi muat turun.", "Un appui long pour enregistrer une image utilise cet emplacement. Dans la version web, le navigateur choisit l’emplacement de téléchargement.", "Beim langen Drücken zum Speichern eines Bildes wird dieser Ort verwendet. In der Webversion bestimmt der Browser den Downloadort.", "Una pressione prolungata per salvare un’immagine usa questa posizione. Nella versione web, il browser decide dove scaricare.", "Долгое нажатие для сохранения изображения использует это место. В веб-версии место загрузки выбирает браузер.", "Mantener pulsado para guardar una imagen usa esta ubicación. En la versión web, el navegador decide dónde descargar.", "Pressionar e segurar para salvar uma imagem usa este local. Na versão web, o navegador decide onde baixar.", "يستخدم هذا الموقع عند الضغط مطولًا لحفظ الصورة. في نسخة الويب، يحدد المتصفح مكان التنزيل."],
+  "网页版由浏览器决定下载位置，不能单独选择文件夹": ["网页版由浏览器决定下载位置，不能单独选择文件夹", "網頁版由瀏覽器決定下載位置，不能單獨選擇資料夾", "In the web version the browser decides the download location; you cannot choose a folder separately.", "Web 版ではブラウザがダウンロード先を決めるため、フォルダーを個別に選べません。", "웹 버전에서는 브라우저가 다운로드 위치를 결정하므로 폴더를 따로 선택할 수 없습니다.", "เว็บเบราว์เซอร์เป็นผู้กำหนดตำแหน่งดาวน์โหลด จึงเลือกโฟลเดอร์แยกไม่ได้", "Di versi web, browser menentukan lokasi unduhan; Anda tidak dapat memilih folder secara terpisah.", "Sa web version, browser ang pumipili ng download location; hindi ka makakapili ng folder nang hiwalay.", "Dalam versi web, pelayar menentukan lokasi muat turun; anda tidak boleh memilih folder secara berasingan.", "Dans la version web, le navigateur choisit l’emplacement ; vous ne pouvez pas sélectionner un dossier séparément.", "In der Webversion bestimmt der Browser den Downloadort; einen Ordner kannst du nicht separat wählen.", "Nella versione web il browser decide la posizione; non puoi scegliere una cartella separatamente.", "В веб-версии место загрузки выбирает браузер; отдельную папку выбрать нельзя.", "En la versión web, el navegador decide la ubicación; no puedes elegir una carpeta por separado.", "Na versão web, o navegador decide o local; não é possível escolher uma pasta separadamente.", "في نسخة الويب يحدد المتصفح مكان التنزيل؛ لا يمكنك اختيار مجلد منفصل."],
+  "图片保存位置已更新": ["图片保存位置已更新", "圖片儲存位置已更新", "Image save location updated", "画像の保存先を更新しました", "이미지 저장 위치가 업데이트되었습니다", "อัปเดตตำแหน่งบันทึกภาพแล้ว", "Lokasi simpan gambar diperbarui", "Na-update ang lokasyon ng pag-save ng larawan", "Lokasi simpan imej dikemas kini", "Emplacement d’enregistrement des images mis à jour", "Bildspeicherort aktualisiert", "Posizione di salvataggio immagini aggiornata", "Место сохранения изображений обновлено", "Ubicación de imágenes actualizada", "Local das imagens atualizado", "تم تحديث موقع حفظ الصور"],
+  "选择图片保存位置失败": ["选择图片保存位置失败", "選擇圖片儲存位置失敗", "Could not choose the image save location", "画像の保存先を選択できませんでした", "이미지 저장 위치를 선택하지 못했습니다", "เลือกตำแหน่งบันทึกภาพไม่สำเร็จ", "Gagal memilih lokasi simpan gambar", "Hindi napili ang lokasyon ng pag-save", "Gagal memilih lokasi simpan imej", "Impossible de choisir l’emplacement des images", "Bildspeicherort konnte nicht gewählt werden", "Impossibile scegliere la posizione delle immagini", "Не удалось выбрать место сохранения", "No se pudo elegir la ubicación de imágenes", "Não foi possível escolher o local das imagens", "تعذّر اختيار موقع حفظ الصور"],
+  "保存到": ["保存到", "儲存到", "Save to", "保存先", "저장 위치", "บันทึกไปยัง", "Simpan ke", "I-save sa", "Simpan ke", "Enregistrer dans", "Speichern unter", "Salva in", "Сохранить в", "Guardar en", "Salvar em", "حفظ إلى"],
+});
+
 function uiTranslation(text) {
   const code = currentUiLanguage();
   const key = String(text || '').trim();
@@ -12993,7 +13075,6 @@ function normalizeNingziComment(raw, personaIds) {
   const text = clampCodePoints(typeof raw.text === 'string' ? raw.text.trim() : '', MAX_NINGZI_COMMENT_TEXT);
   if (!text) return null;
   const personaId = typeof raw.personaId === 'string' ? raw.personaId : '';
-  if (personaId && personaIds && !personaIds.has(personaId)) return null;
   const replies = [];
   for (const rawReply of (Array.isArray(raw.replies) ? raw.replies.slice(-50) : [])) {
     if (!isPlainObject(rawReply)) continue;
@@ -13149,6 +13230,7 @@ function freshState() {
     activeChatId: chat.id,
     chats: [chat],
     collections: [],
+  collectionCollapsed: new Set(),
     diary: [],
     diaryFolders: [],
     mods: [],
@@ -13208,6 +13290,22 @@ function normalizeDiary(raw, folders) {
         const pending = rawComment.pending === true;
         const rawText = typeof rawComment.text === 'string' ? rawComment.text.trim() : '';
         if (!rawText && !pending) continue;
+        const replies = [];
+        if (Array.isArray(rawComment.replies)) {
+          for (const rawReply of rawComment.replies.slice(-20)) {
+            if (!isPlainObject(rawReply)) continue;
+            const rawReplyText = typeof rawReply.text === 'string' ? rawReply.text.trim() : '';
+            if (!rawReplyText) continue;
+            replies.push({
+              id: typeof rawReply.id === 'string' ? rawReply.id : uid('dreply'),
+              role: rawReply.role === 'friend' ? 'friend' : 'user',
+              text: clampCodePoints(rawReplyText, 1200),
+              wordLayer: clampCodePoints(typeof rawReply.wordLayer === 'string' ? rawReply.wordLayer : '', MAX_MESSAGE_TEXT),
+              interpretation: clampCodePoints(typeof rawReply.interpretation === 'string' ? rawReply.interpretation : '', MAX_INTERPRETATION),
+              createdAt: parseIso(rawReply.createdAt) || nowIso(),
+            });
+          }
+        }
         comments.push({
           id: typeof rawComment.id === 'string' ? rawComment.id : uid('dcomment'),
           chatId: typeof rawComment.chatId === 'string' ? rawComment.chatId : '',
@@ -13220,6 +13318,7 @@ function normalizeDiary(raw, folders) {
           publishAt: parseIso(rawComment.publishAt) || parseIso(rawComment.createdAt) || nowIso(),
           pending,
           failed: rawComment.failed === true,
+          replies,
         });
       }
     }
@@ -15337,7 +15436,7 @@ function renderPhotoPreview() {
 
 async function handlePhotoFiles(files) {
   if (ui.photoProcessing) return;
-  const incoming = Array.from(files || []).filter(file => file && /^image\/(?:jpeg|png|webp|gif)$/i.test(file.type || ''));
+  const incoming = Array.from(files || []).filter(file => isSupportedImageFile(file));
   if (!incoming.length) return;
   const remaining = Math.max(0, MAX_CHAT_IMAGES - (Array.isArray(ui.pendingImages) ? ui.pendingImages.length : 0));
   if (!remaining) {
@@ -16124,11 +16223,27 @@ function openChatEditor(chatId = null) {
   });
 }
 
+function imageMimeForFile(file) {
+  if (!file) return '';
+  const type = String(file.type || '').toLowerCase();
+  if (/^image\/(?:jpeg|png|webp|gif)$/.test(type)) return type;
+  const name = String(file.name || '').toLowerCase();
+  const match = /\.(jpe?g|png|webp|gif)$/.exec(name);
+  if (!match) return type.startsWith('image/') ? type : '';
+  const ext = match[1] === 'jpg' ? 'jpeg' : match[1];
+  return 'image/' + ext;
+}
+
+function isSupportedImageFile(file) {
+  if (!file) return false;
+  return !!imageMimeForFile(file) || !String(file.type || '');
+}
+
 async function resizeImageForChat(file, options = {}) {
   const maxSide = Number(options.maxSide) || 1280;
   const maxData = Number(options.maxDataUrl) || MAX_CHAT_IMAGE_DATA_URL;
   const quality = Number(options.quality) || 0.78;
-  if (!file || !/^image\/(?:jpeg|png|webp|gif)$/i.test(file.type || '')) {
+  if (!file || !isSupportedImageFile(file)) {
     throw new Error('请选择 JPG、PNG、WebP 或 GIF 图片');
   }
   if (file.size > MAX_CHAT_IMAGE_SOURCE_BYTES) {
@@ -16213,7 +16328,7 @@ function deleteChatWithConfirm(chatId) {
 }
 
 async function openAvatarCropper(file) {
-  if (!file || !/^image\//i.test(file.type || '')) {
+  if (!file || !isSupportedImageFile(file)) {
     throw new Error('请选择一张图片');
   }
   if (file.size > 20 * 1024 * 1024) {
@@ -16225,16 +16340,15 @@ async function openAvatarCropper(file) {
     layer.innerHTML = ''
       + '<section class="avatar-crop-card" role="dialog" aria-modal="true" aria-labelledby="avatarCropTitle">'
       + '  <div class="avatar-crop-head"><strong id="avatarCropTitle">调整头像</strong><span>AVATAR CROP</span></div>'
-      + '  <p class="avatar-crop-lead">拖动图片调整位置，滑动缩放。头像会裁成正方形。</p>'
+      + '  <p class="avatar-crop-lead">' + escapeHtml(uiTranslation('单指拖动调整位置，双指缩放。头像会裁成正方形。')) + '</p>'
       + '  <div class="avatar-crop-frame" id="avatarCropFrame"><img id="avatarCropImage" alt="" draggable="false"></div>'
-      + '  <div class="avatar-crop-controls"><label for="avatarCropZoom">缩放</label><input id="avatarCropZoom" type="range" min="1" max="3" step="0.01" value="1"><button type="button" id="avatarCropReset">还原</button></div>'
+      + '  <div class="avatar-crop-controls"><button type="button" id="avatarCropReset">' + escapeHtml(uiTranslation('还原')) + '</button><span class="avatar-crop-hint">' + escapeHtml(uiTranslation('单指移动 · 双指缩放')) + '</span></div>'
       + '  <div class="avatar-crop-actions"><button class="secondary-button" type="button" id="avatarCropCancel">取消</button><button class="primary-button" type="button" id="avatarCropConfirm">使用这张头像</button></div>'
       + '</section>';
     document.body.appendChild(layer);
 
     const frame = layer.querySelector('#avatarCropFrame');
     const img = layer.querySelector('#avatarCropImage');
-    const zoomInput = layer.querySelector('#avatarCropZoom');
     const resetBtn = layer.querySelector('#avatarCropReset');
     const cancelBtn = layer.querySelector('#avatarCropCancel');
     const confirmBtn = layer.querySelector('#avatarCropConfirm');
@@ -16247,6 +16361,8 @@ async function openAvatarCropper(file) {
     let panY = 0;
     let cover = 1;
     let drag = null;
+    let pinch = null;
+    const pointers = new Map();
     let finished = false;
 
     const cleanup = (value, error) => {
@@ -16298,7 +16414,6 @@ async function openAvatarCropper(file) {
         if (!naturalW || !naturalH) throw new Error('图片尺寸无效');
         cover = Math.max(frameSize / naturalW, frameSize / naturalH);
         applyTransform();
-        zoomInput.focus();
       } catch (err) {
         cleanup(null, err);
       }
@@ -16306,15 +16421,11 @@ async function openAvatarCropper(file) {
     img.onerror = () => cleanup(null, new Error('无法识别这张图片'));
     img.src = objectUrl;
 
-    zoomInput.addEventListener('input', () => {
-      zoom = Math.max(1, Math.min(3, Number(zoomInput.value) || 1));
-      applyTransform();
-    });
+    const clampZoom = value => Math.max(1, Math.min(3, value));
     resetBtn.addEventListener('click', () => {
       zoom = 1;
       panX = 0;
       panY = 0;
-      zoomInput.value = '1';
       applyTransform();
     });
     cancelBtn.addEventListener('click', () => cleanup(null));
@@ -16351,23 +16462,63 @@ async function openAvatarCropper(file) {
 
     frame.addEventListener('pointerdown', event => {
       if (finished) return;
-      drag = { x: event.clientX, y: event.clientY, panX, panY };
-      frame.setPointerCapture(event.pointerId);
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      try { frame.setPointerCapture(event.pointerId); } catch (err) { /* ignore */ }
+      if (pointers.size === 1) {
+        drag = { x: event.clientX, y: event.clientY, panX, panY };
+        pinch = null;
+      } else if (pointers.size === 2) {
+        const points = [...pointers.values()];
+        const dx = points[0].x - points[1].x;
+        const dy = points[0].y - points[1].y;
+        drag = null;
+        pinch = {
+          distance: Math.max(1, Math.hypot(dx, dy)),
+          zoom,
+          panX,
+          panY,
+          centerX: (points[0].x + points[1].x) / 2,
+          centerY: (points[0].y + points[1].y) / 2,
+        };
+      }
       event.preventDefault();
     });
     frame.addEventListener('pointermove', event => {
-      if (!drag || finished) return;
+      if (finished || !pointers.has(event.pointerId)) return;
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      if (pointers.size >= 2 && pinch) {
+        const points = [...pointers.values()];
+        const dx = points[0].x - points[1].x;
+        const dy = points[0].y - points[1].y;
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        zoom = clampZoom(pinch.zoom * (distance / pinch.distance));
+        applyTransform();
+        return;
+      }
+      if (!drag) return;
       panX = drag.panX + (event.clientX - drag.x);
       panY = drag.panY + (event.clientY - drag.y);
       applyTransform();
     });
     const endDrag = event => {
-      if (!drag) return;
-      drag = null;
+      pointers.delete(event.pointerId);
       try { frame.releasePointerCapture(event.pointerId); } catch (err) { /* ignore */ }
+      if (pointers.size < 2) pinch = null;
+      if (!pointers.size) {
+        drag = null;
+      } else if (pointers.size === 1) {
+        const point = [...pointers.values()][0];
+        drag = { x: point.x, y: point.y, panX, panY };
+      }
     };
     frame.addEventListener('pointerup', endDrag);
     frame.addEventListener('pointercancel', endDrag);
+    frame.addEventListener('wheel', event => {
+      if (finished) return;
+      event.preventDefault();
+      zoom = clampZoom(zoom * (event.deltaY > 0 ? 0.92 : 1.08));
+      applyTransform();
+    }, { passive: false });
     layer.addEventListener('pointerdown', event => {
       if (event.target === layer) cleanup(null);
     });
@@ -16383,7 +16534,7 @@ async function openAvatarCropper(file) {
 }
 
 async function resizeImageForAvatar(file) {
-  if (!file.type || !/^image\//i.test(file.type)) throw new Error('请选择一张图片');
+  if (!isSupportedImageFile(file)) throw new Error('请选择一张图片');
   if (file.size > 8 * 1024 * 1024) throw new Error('图片超过 8MB，请换一张小一点儿的');
   const objectUrl = URL.createObjectURL(file);
   try {
@@ -17657,6 +17808,7 @@ function openCollectionsModal(options = {}) {
   const chat = getActiveChat();
   if (!chat) return;
   const tags = tagsForChat(chat.id);
+  ui.collectionCollapsed = new Set(tags.map(tag => tag.id));
   const collectionKicker = count => 'SAVED MOMENTS · ' + uiTranslation('{{count}} 个标签').replace('{{count}}', String(count));
   const collectionTitle = uiTranslation('{{name}} 的收藏').replace('{{name}}', chat.nickname);
   openModal({
@@ -17684,6 +17836,14 @@ function openCollectionsModal(options = {}) {
         const del = event.target.closest('[data-collection-delete]');
         const focusEmpty = event.target.closest('[data-collections-empty-select]');
         const startSelect = event.target.closest('[data-collections-start-select]');
+        const toggle = event.target.closest('[data-collection-toggle]');
+        if (toggle) {
+          const tagId = toggle.getAttribute('data-collection-toggle');
+          if (ui.collectionCollapsed.has(tagId)) ui.collectionCollapsed.delete(tagId);
+          else ui.collectionCollapsed.add(tagId);
+          refresh();
+          return;
+        }
         if (startSelect) {
           closeModal();
           const current = getActiveChat();
@@ -17766,14 +17926,14 @@ function collectionsRootHTML(chatId) {
       return ''
         + '<section class="collection-card" data-collection-card="' + escapeAttr(tag.id) + '">'
         + '  <header class="collection-head">'
-        + '    <h3 class="collection-name">' + escapeHtml(tag.name) + '</h3>'
+        + '    <h3 class="collection-name" data-collection-toggle="' + escapeAttr(tag.id) + '" role="button" tabindex="0" aria-expanded="' + (!ui.collectionCollapsed.has(tag.id)) + '"><span class="collection-chevron">' + (ui.collectionCollapsed.has(tag.id) ? '▸' : '▾') + '</span>' + escapeHtml(tag.name) + '</h3>'
         + '    <span class="collection-count">' + items.length + ' 条</span>'
         + '    <div class="collection-actions">'
         + '      <button class="collection-action" type="button" data-collection-rename data-tag-id="' + escapeAttr(tag.id) + '" title="重命名标签" aria-label="重命名标签">' + icon('edit') + '</button>'
         + '      <button class="collection-action" type="button" data-collection-delete data-tag-id="' + escapeAttr(tag.id) + '" title="删除标签" aria-label="删除标签">' + icon('trash-line') + '</button>'
         + '    </div>'
         + '  </header>'
-        + '  <div class="collection-items">'
+        + '  <div class="collection-items"' + (ui.collectionCollapsed.has(tag.id) ? ' hidden' : '') + '>'
         + (items.length ? items.map(({ chat, msg }) => {
           return ''
             + '<article class="collection-item">'
@@ -18035,21 +18195,52 @@ async function writeBackupCopies(slot) {
       console.warn('[字势静兼] chosen backup folder failed', err);
     }
   }
-  try {
-    await bridge.saveBackupFile(info.appBackupDir, slot.fileName, content);
-    result.appSaved = true;
+  if (info.appBackupDir && chosen === info.appBackupDir) {
+    result.appSaved = result.chosenSaved;
     result.app = info.appBackupDir;
-  } catch (err) {
+  } else {
     try {
-      await bridge.saveBackupFile(info.fallbackBackupDir, slot.fileName, content);
+      await bridge.saveBackupFile(info.appBackupDir, slot.fileName, content);
       result.appSaved = true;
-      result.app = info.fallbackBackupDir;
-    } catch (fallbackErr) {
-      console.warn('[字势静兼] app folder backup failed', fallbackErr);
+      result.app = info.appBackupDir;
+    } catch (err) {
+      try {
+        await bridge.saveBackupFile(info.fallbackBackupDir, slot.fileName, content);
+        result.appSaved = true;
+        result.app = info.fallbackBackupDir;
+      } catch (fallbackErr) {
+        console.warn('[字势静兼] app folder backup failed', fallbackErr);
+      }
     }
   }
   result.ok = result.chosenSaved || result.appSaved;
   return result;
+}
+
+async function pruneBackupFolder(folder, kind, keep = 3) {
+  const bridge = backupBridge();
+  if (!bridge || !folder || typeof bridge.pruneBackupFiles !== 'function') return 0;
+  try {
+    const count = await bridge.pruneBackupFiles(folder, kind, keep);
+    return Number(count) || 0;
+  } catch (err) {
+    console.warn('[字势静兼] backup prune failed', err);
+    return 0;
+  }
+}
+
+async function pruneBackupCopies(kind, keep = 3) {
+  const bridge = backupBridge();
+  if (!bridge || typeof bridge.pruneBackupFiles !== 'function') return 0;
+  const info = await getBackupInfo();
+  if (!info) return 0;
+  const chosen = await resolveBackupFolder(info);
+  const folders = [...new Set([chosen, info.appBackupDir, info.fallbackBackupDir].filter(Boolean))];
+  let deleted = 0;
+  for (const folder of folders) {
+    deleted += await pruneBackupFolder(folder, kind, keep);
+  }
+  return deleted;
 }
 
 async function saveManualBackupNow() {
@@ -18119,6 +18310,7 @@ async function saveBackupSlot(kind, options = {}) {
   };
   await putBackupSlot(slot);
   const disk = await writeBackupCopies(slot);
+  await pruneBackupCopies(kind, 3);
   if (ui.modalOpen && ui.activeModalKind === 'backup' && el.modalBody) {
     renderBackupSlots(el.modalBody);
     renderBackupLocation(el.modalBody);
@@ -18164,7 +18356,6 @@ function backupSlotCardHTML(kind, slot) {
   const actions = slot
     ? '<div class="backup-slot-actions">'
       + choose
-      + '<button class="secondary-button" type="button" data-slot-action="download" data-slot-kind="' + kind + '">下载</button>'
       + '<button class="secondary-button" type="button" data-slot-action="restore" data-slot-kind="' + kind + '">恢复</button>'
       + (!isAuto ? '<button class="secondary-button" type="button" data-slot-action="save" data-slot-kind="manual">重新保存</button>' : '')
       + '</div>'
@@ -18248,18 +18439,19 @@ function openBackupModal() {
       + '    <span class="backup-icon">' + icon('download') + '</span>'
       + '    <div><h3>' + escapeHtml(uiTranslation('导出备份')) + '</h3><p>' + escapeHtml(uiTranslation('生成一份可以离线保存的聊天、收藏和日记 JSON 文件。')) + '</p></div>'
       + '  </div>'
-      + '  <div class="button-row"><button class="primary-button backup-download-primary" type="button" id="exportBackupBtn">' + icon('download') + '下载备份文件</button>'
-      + (mobileBackupDownloadAvailable() ? '<button class="primary-button" type="button" id="downloadBackupToPhoneBtn">' + icon('download') + '导出到手机 Download</button>' : '')
-      + (mobileBackupShareAvailable() ? '<button class="secondary-button" type="button" id="shareBackupBtn">' + icon('upload') + '分享备份到手机</button>' : '')
+      + '  <div class="button-row">'
+      + (!backupBridge() ? '<button class="primary-button backup-download-primary" type="button" id="webExportBackupBtn">' + icon('download') + escapeHtml(uiTranslation('下载备份文件')) + '</button>' : '')
+      + (mobileBackupDownloadAvailable() ? '<button class="primary-button" type="button" id="downloadBackupToPhoneBtn">' + icon('download') + escapeHtml(uiTranslation('导出到手机 Download')) + '</button>' : '')
+      + (mobileBackupShareAvailable() ? '<button class="secondary-button" type="button" id="shareBackupBtn">' + icon('upload') + escapeHtml(uiTranslation('分享备份到手机')) + '</button>' : '')
       + '</div>'
-      + (mobileBackupDownloadAvailable() ? '<p class="backup-note">Android 10 及以上会保存到手机内部存储的 <code>Download/Syntonmancy/</code>，可直接在“文件”或“下载”里找到。</p>' : '')
-      + (mobileBackupShareAvailable() ? '<p class="backup-note">分享会先把备份写入应用私有 backups 目录，再打开 Android 分享面板；可发送到微信文件传输助手、网盘或文件管理器。</p>' : '')
+      + (mobileBackupDownloadAvailable() ? '<p class="backup-note">' + escapeHtml(uiTranslation('Android 10 及以上会保存到手机内部存储的 Download/Syntonmancy/，可直接在“文件”或“下载”里找到。')) + '</p>' : '')
+      + (mobileBackupShareAvailable() ? '<p class="backup-note">' + escapeHtml(uiTranslation('分享会先把备份写入应用私有 backups 目录，再打开 Android 分享面板；可发送到微信文件传输助手、网盘或文件管理器。')) + '</p>' : '')
       + '  <p class="export-note">' + icon('alert') + 'AI 服务商、模型与 API Key 属于设备设置，不会写入备份</p>'
       + '</section>'
       + '<section class="backup-section">'
       + '  <div class="backup-section-header">'
       + '    <span class="backup-icon">' + icon('alert') + '</span>'
-      + '    <div><h3>' + escapeHtml(uiTranslation('自动备份')) + '</h3><p>' + escapeHtml(uiTranslation('手动槽和自动槽各留一份；两张卡的选择位置按钮会打开同一个文件夹选择器，选好后手动和自动备份共用这个位置。自动槽按间隔覆盖上一份，不累积历史。')) + '</p></div>'
+      + '    <div><h3>' + escapeHtml(uiTranslation('自动备份')) + '</h3><p>' + escapeHtml(uiTranslation('自动备份和手动备份各保留最近 3 份。应用内备份槽只保留最新一份。')) + '</p></div>'
       + '  </div>'
       + '  <div class="backup-auto-controls">'
       + '    <label class="backup-toggle"><input id="autoBackupEnabled" type="checkbox"' + (state.settings.backup.autoEnabled ? ' checked' : '') + '> 开启自动备份</label>'
@@ -18277,15 +18469,15 @@ function openBackupModal() {
       + '  <p class="backup-note">相同 ID 的内容会用备份覆盖；备份里没有的现有聊天、消息和标签会保留。恢复不会改动 AI 连接设置。</p>'
       + '</section>',
     mount(bodyEl) {
-      const exportBtn = bodyEl.querySelector('#exportBackupBtn');
       const importBtn = bodyEl.querySelector('#chooseBackupBtn');
+      const webExportBtn = bodyEl.querySelector('#webExportBackupBtn');
       const autoToggle = bodyEl.querySelector('#autoBackupEnabled');
       const autoInterval = bodyEl.querySelector('#autoBackupInterval');
       const changeFolderBtn = bodyEl.querySelector('#changeBackupFolderBtn');
       const openFolderBtn = bodyEl.querySelector('#openBackupFolderBtn');
+      if (webExportBtn) webExportBtn.addEventListener('click', exportBackup);
       if (changeFolderBtn) changeFolderBtn.addEventListener('click', () => changeBackupFolder(bodyEl));
       if (openFolderBtn) openFolderBtn.addEventListener('click', openBackupFolder);
-      if (exportBtn) exportBtn.addEventListener('click', exportBackup);
       const shareBtn = bodyEl.querySelector('#shareBackupBtn');
       if (shareBtn) shareBtn.addEventListener('click', () => shareBackupFromApp());
       const downloadPhoneBtn = bodyEl.querySelector('#downloadBackupToPhoneBtn');
@@ -18321,10 +18513,6 @@ function openBackupModal() {
           } catch (err) {
             showToast(err && err.message ? err.message : '保存备份槽失败', 'error');
           }
-        } else if (action === 'download') {
-          const slot = await getBackupSlot(kind);
-          if (slot) downloadBackupSlotData(slot);
-          else showToast('这个备份槽还是空的', 'error');
         } else if (action === 'restore') {
           try { await restoreBackupSlotData(kind); } catch (err) { showToast(err && err.message ? err.message : '恢复失败', 'error'); }
         }
@@ -19570,16 +19758,88 @@ function diaryVisibleComments(entry) {
   });
 }
 
+const diaryReplyingComments = new Set();
+
+async function replyToDiaryComment(entry, comment, text) {
+  if (!entry || !comment || !text) return;
+  if (!isModelReady()) {
+    showToast('还没有连接文本模型，暂时无法回复', 'notice');
+    return;
+  }
+  if (diaryReplyingComments.has(comment.id)) return;
+  const userText = clampCodePoints(text.trim(), 300);
+  if (!userText) return;
+  comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
+  comment.replies.push({ id: uid('dreply'), role: 'user', text: userText, createdAt: nowIso() });
+  persistState({ quiet: true });
+  if (ui.page === 'diary') renderPage();
+  diaryReplyingComments.add(comment.id);
+  try {
+    const friendChat = comment.chatId ? (state.chats || []).find(chat => chat && chat.id === comment.chatId) : null;
+    const commenter = friendChat || {
+      id: comment.chatId || ('anon_' + comment.id),
+      nickname: comment.name,
+      avatar: comment.avatar,
+      messages: [],
+    };
+    const replyChat = {
+      ...commenter,
+      messages: [{
+        id: 'diary_reply_' + comment.id,
+        role: 'user',
+        text: '（这是一条日记评论回复任务。用户回复了你的评论：「' + userText + '」。请只按本轮字义写一句自然的回复。）',
+        createdAt: nowIso(),
+        roundId: null,
+      }],
+    };
+    const chars = [...new Set(drawCharacters())];
+    const result = await modelGenerate(replyChat, chars, false, '', 'neutral', {
+      commentContext: '（日记评论回复任务：不读取日记文字或图片，只按本轮字义回应用户的回复。用户回复：' + userText + '）',
+    });
+    if (!result || !result.ok || !result.reply || !result.interpretation) {
+      showToast('这条回复没有生成成功，可以稍后再试', 'error');
+      return;
+    }
+    let replyText = result.reply;
+    const language = languageInfo();
+    if (language.code !== 'zh-Hans') {
+      const translated = await translateReplyForDisplay(replyText, language);
+      if (translated && translated.ok && translated.text) replyText = translated.text;
+    }
+    comment.replies.push({
+      id: uid('dreply'),
+      role: 'friend',
+      text: clampCodePoints(replyText, 1200),
+      wordLayer: clampCodePoints(result.wordLayer || '', MAX_MESSAGE_TEXT),
+      interpretation: clampCodePoints(result.interpretation || '', MAX_INTERPRETATION),
+      createdAt: nowIso(),
+    });
+    persistState({ quiet: true });
+  } catch (err) {
+    showToast('日记评论回复失败：' + (err && err.message ? err.message : '请稍后重试'), 'error');
+  } finally {
+    diaryReplyingComments.delete(comment.id);
+    if (ui.page === 'diary') renderPage();
+  }
+}
+
 function diaryCommentsHTML(entry) {
   if (!entry || entry.visibility !== 'friends') return '';
   const comments = diaryVisibleComments(entry);
   if (comments.length) {
     const list = comments.map(comment => {
-      return '<div class="diary-comment">'
+      const replies = Array.isArray(comment.replies) ? comment.replies : [];
+      const replyList = replies.length
+        ? '<div class="diary-replies">' + replies.map(reply => '<div class="diary-reply"><b>' + escapeHtml(reply.role === 'user' ? userDisplayName() : comment.name) + '：</b>' + escapeHtml(reply.text) + '</div>').join('') + '</div>'
+        : '';
+      const replyForm = '<form class="diary-reply-form" data-diary-reply-form="' + escapeAttr(comment.id) + '" hidden><input type="text" maxlength="300" placeholder="' + escapeAttr(uiTranslation('回复 {{name}}').replace('{{name}}', comment.name)) + '" autocomplete="off"><button type="submit">' + escapeHtml(uiTranslation('发送')) + '</button></form>';
+      return '<div class="diary-comment" data-diary-comment="' + escapeAttr(comment.id) + '">'
         + '<div class="diary-comment-avatar">' + avatarHTML(comment.avatar, 'avatar-xs') + '</div>'
         + '<div class="diary-comment-main"><div class="diary-comment-head"><strong>' + escapeHtml(comment.name) + '</strong>'
         + '<time>' + escapeHtml(formatClock(comment.publishAt, { full: true })) + '</time></div>'
-        + '<p>' + escapeHtml(comment.text) + '</p></div>'
+        + '<p>' + escapeHtml(comment.text) + '</p>'
+        + '<div class="diary-comment-actions"><button type="button" data-diary-reply-open="' + escapeAttr(comment.id) + '">' + escapeHtml(uiTranslation('回复')) + '</button></div>'
+        + replyList + replyForm + '</div>'
         + '</div>';
     }).join('');
     return '<div class="diary-comments"><div class="diary-comments-title">朋友评论</div>' + list + '</div>';
@@ -20209,6 +20469,19 @@ function mountDiaryPage() {
       showToast('日记文件夹已更新');
     });
     feed.addEventListener('click', event => {
+      const replyOpen = event.target.closest('[data-diary-reply-open]');
+      if (replyOpen) {
+        const id = replyOpen.getAttribute('data-diary-reply-open');
+        const form = feed.querySelector('[data-diary-reply-form="' + CSS.escape(id) + '"]');
+        if (form) {
+          form.hidden = !form.hidden;
+          if (!form.hidden) {
+            const input = form.querySelector('input');
+            if (input) input.focus();
+          }
+        }
+        return;
+      }
       const edit = event.target.closest('[data-diary-edit]');
       if (edit) {
         const entry = (state.diary || []).find(item => item.id === edit.getAttribute('data-diary-edit'));
@@ -20235,6 +20508,25 @@ function mountDiaryPage() {
           return true;
         },
       });
+    });
+    feed.addEventListener('submit', event => {
+      const form = event.target.closest('[data-diary-reply-form]');
+      if (!form) return;
+      event.preventDefault();
+      const card = form.closest('.diary-card[data-diary-id]');
+      const entry = card ? (state.diary || []).find(item => item.id === card.getAttribute('data-diary-id')) : null;
+      const comment = entry && (entry.comments || []).find(item => item.id === form.getAttribute('data-diary-reply-form'));
+      const input = form.querySelector('input');
+      if (!entry || !comment || !input) return;
+      const text = input.value.trim();
+      if (!text) {
+        showToast('先写一句回复', 'notice');
+        input.focus();
+        return;
+      }
+      input.value = '';
+      form.hidden = true;
+      replyToDiaryComment(entry, comment, text);
     });
   }
   if (text) text.focus();
@@ -20513,7 +20805,7 @@ function ningziPostCardHTML(post) {
   const comments = Array.isArray(post.comments) ? post.comments : [];
   return ''
     + '<article class="ningzi-card" data-ningzi-post="' + escapeAttr(post.id) + '">'
-    + '  <div class="ningzi-card-head">' + userAvatarHTML('avatar-xs') + '<strong>' + escapeHtml(userDisplayName()) + '</strong><time>' + escapeHtml(formatClock(post.createdAt, { full: true })) + '</time></div>'
+    + '  <div class="ningzi-card-head">' + userAvatarHTML('avatar-xs') + '<strong>' + escapeHtml(userDisplayName()) + '</strong><time>' + escapeHtml(formatClock(post.createdAt, { full: true })) + '</time><div class="ningzi-card-actions"><button type="button" data-ningzi-regenerate-post="' + escapeAttr(post.id) + '">' + escapeHtml(uiTranslation('重新生成照片')) + '</button><button type="button" data-ningzi-delete-post="' + escapeAttr(post.id) + '" aria-label="' + escapeAttr(uiTranslation('删除朋友圈')) + '">' + escapeHtml(uiTranslation('删除')) + '</button></div></div>'
     + '  <p class="ningzi-card-text">' + escapeHtml(post.text) + '</p>'
     + '  <div class="ningzi-scene">' + scene + '</div>'
         + '  <div class="ningzi-progress">'
@@ -20551,6 +20843,148 @@ function ningziCommentHTML(post, comment) {
       + '  <button type="submit">' + escapeHtml(uiTranslation('发送')) + '</button>'
       + '</form>')
     + '</div></div>';
+}
+
+function ningziRegenerateRefs(post) {
+  const common = Array.isArray(ningziState().commonRefs) ? ningziState().commonRefs : [];
+  const selected = new Set();
+  const round = [];
+  for (const ref of (Array.isArray(post.refs) ? post.refs : [])) {
+    if (common.some(item => item.id === ref.id)) selected.add(ref.id);
+    else round.push({ ...ref });
+  }
+  return { common, selected, round };
+}
+
+function openNingziRegenerateModal(postId) {
+  const post = ningziPostById(postId);
+  if (!post) return;
+  if (ningziGeneratingPosts.has(post.id)) {
+    showToast('这张照片还在生成中', 'notice');
+    return;
+  }
+  const stateRefs = ningziRegenerateRefs(post);
+  let selectedCommon = stateRefs.selected;
+  let roundRefs = stateRefs.round;
+  const body = ''
+    + '<div class="ningzi-field"><label for="ningziRegenText">' + escapeHtml(uiTranslation('朋友圈文字内容')) + '</label><textarea id="ningziRegenText" maxlength="' + MAX_NINGZI_TEXT + '">' + escapeHtml(post.text || '') + '</textarea></div>'
+    + '<div class="ningzi-field"><label for="ningziRegenPrompt">' + escapeHtml(uiTranslation('照片生成描述')) + ' <span>' + escapeHtml(uiTranslation('只发给图片模型，不在朋友圈显示')) + '</span></label><textarea id="ningziRegenPrompt" maxlength="' + MAX_NINGZI_IMAGE_PROMPT + '">' + escapeHtml(post.imagePrompt || ui.ningziDraftPrompt || DEFAULT_NINGZI_IMAGE_PROMPT) + '</textarea></div>'
+    + '<div class="ningzi-refs-head"><strong>' + escapeHtml(uiTranslation('常用参考')) + '</strong><span>' + escapeHtml(uiTranslation('最多 4 张，可勾选本次使用')) + '</span></div>'
+    + '<div class="ningzi-ref-row" id="ningziRegenCommon"></div>'
+    + '<div class="ningzi-refs-head"><strong>' + escapeHtml(uiTranslation('本轮参考')) + '</strong><span>' + escapeHtml(uiTranslation('最多 3 张，可选')) + '</span><select id="ningziRegenRoundTag" class="ningzi-ref-tag" style="width:auto;border:1px solid var(--theme-border);border-radius:6px">' + ningziRefTagOptions('environment') + '</select><button class="secondary-button ningzi-ref-action" type="button" id="ningziRegenAddRound"><span aria-hidden="true">＋</span>' + escapeHtml(uiTranslation('添加本轮参考')) + '</button></div>'
+    + '<div class="ningzi-ref-row" id="ningziRegenRound"></div>'
+    + '<input id="ningziRegenFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>'
+    + '<div class="modal-actions"><button class="secondary-button" type="button" id="ningziRegenCancel">' + escapeHtml(uiTranslation('取消')) + '</button><button class="primary-button" type="button" id="ningziRegenSave">' + escapeHtml(uiTranslation('保存并重新生成')) + '</button></div>';
+  openModal({
+    kind: 'ningzi-regenerate',
+    kicker: 'REGENERATE SCENE',
+    title: uiTranslation('重新生成照片'),
+    body,
+    mount(bodyEl) {
+      const commonWrap = bodyEl.querySelector('#ningziRegenCommon');
+      const roundWrap = bodyEl.querySelector('#ningziRegenRound');
+      const fileInput = bodyEl.querySelector('#ningziRegenFile');
+      const addBtn = bodyEl.querySelector('#ningziRegenAddRound');
+      const tagSelect = bodyEl.querySelector('#ningziRegenRoundTag');
+      const renderRefs = () => {
+        const commonHTML = stateRefs.common.length
+          ? stateRefs.common.map(ref => ningziRefThumbHTML(ref, {
+            checkbox: true,
+            selected: selectedCommon.has(ref.id),
+          })).join('')
+          : '<span class="ningzi-settings-note">' + escapeHtml(uiTranslation('还没有常用参考。')) + '</span>';
+        commonWrap.innerHTML = commonHTML;
+        roundWrap.innerHTML = roundRefs.length
+          ? roundRefs.map(ref => ningziRefThumbHTML(ref, { remove: true })).join('')
+          : '<span class="ningzi-settings-note">' + escapeHtml(uiTranslation('不添加也可以，只靠文字和常用参考生成。')) + '</span>';
+        for (const input of commonWrap.querySelectorAll('[data-ningzi-common-toggle]')) {
+          input.addEventListener('change', () => {
+            const id = input.getAttribute('data-ningzi-common-toggle');
+            if (input.checked) selectedCommon.add(id); else selectedCommon.delete(id);
+          });
+        }
+        for (const button of roundWrap.querySelectorAll('[data-ningzi-round-remove]')) {
+          button.addEventListener('click', () => {
+            const id = button.getAttribute('data-ningzi-round-remove');
+            roundRefs = roundRefs.filter(ref => ref.id !== id);
+            renderRefs();
+          });
+        }
+      };
+      renderRefs();
+      addBtn.addEventListener('click', () => {
+        if (roundRefs.length >= MAX_NINGZI_ROUND_REFS) {
+          showToast('最多 3 张本轮参考', 'notice');
+          return;
+        }
+        fileInput.value = '';
+        fileInput.click();
+      });
+      fileInput.addEventListener('change', async () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        try {
+          const image = await resizeImageForChat(file);
+          roundRefs.push({ id: uid('nref'), image, tag: tagSelect ? tagSelect.value : 'environment', createdAt: nowIso() });
+          renderRefs();
+        } catch (err) {
+          showToast(err && err.message ? err.message : '照片处理失败', 'error');
+        } finally {
+          fileInput.value = '';
+        }
+      });
+      bodyEl.querySelector('#ningziRegenCancel').addEventListener('click', closeModal);
+      bodyEl.querySelector('#ningziRegenSave').addEventListener('click', () => {
+        const text = bodyEl.querySelector('#ningziRegenText').value.trim();
+        if (!text) {
+          showToast('先写一句朋友圈文字', 'notice');
+          return;
+        }
+        const prompt = bodyEl.querySelector('#ningziRegenPrompt').value.trim();
+        const refs = [];
+        for (const ref of stateRefs.common) if (selectedCommon.has(ref.id)) refs.push({ ...ref });
+        for (const ref of roundRefs) refs.push({ ...ref });
+        post.text = clampCodePoints(text, MAX_NINGZI_TEXT);
+        post.imagePrompt = clampCodePoints(prompt, MAX_NINGZI_IMAGE_PROMPT);
+        post.refs = refs.slice(0, MAX_NINGZI_COMMON_REFS + MAX_NINGZI_ROUND_REFS);
+        post.sceneImage = '';
+        post.sceneUrl = '';
+        post.sceneStatus = 'pending';
+        post.sceneError = '';
+        persistState({ quiet: true });
+        closeModal();
+        ningziRefresh();
+        generateNingziScene(post);
+      });
+    },
+  });
+}
+
+function deleteNingziPost(postId) {
+  const post = ningziPostById(postId);
+  if (!post) return;
+  if (ningziGeneratingPosts.has(post.id)) {
+    showToast('这张照片还在生成中', 'notice');
+    return;
+  }
+  openConfirmModal({
+    kicker: 'DELETE MOMENT',
+    title: uiTranslation('删除这条朋友圈？'),
+    message: uiTranslation('这条动态和它下面的评论会从本机删除。'),
+    warning: uiTranslation('这个操作无法撤销。'),
+    confirmLabel: uiTranslation('删除'),
+    cancelLabel: uiTranslation('保留'),
+    onConfirm: () => {
+      const ns = ningziState();
+      ns.posts = (ns.posts || []).filter(item => item.id !== post.id);
+      ningziGeneratingPosts.delete(post.id);
+      persistState({ quiet: true });
+      closeModal();
+      if (ui.page === 'ningzi') ningziRefresh();
+      showToast(uiTranslation('已删除朋友圈'));
+      return true;
+    },
+  });
 }
 
 function ningziRefresh(preserveScroll = true) {
@@ -20652,6 +21086,16 @@ function mountNingziPage() {
           if (input) input.focus();
         }
       }
+      return;
+    }
+    const regenerate = event.target.closest('[data-ningzi-regenerate-post]');
+    if (regenerate) {
+      openNingziRegenerateModal(regenerate.getAttribute('data-ningzi-regenerate-post'));
+      return;
+    }
+    const removePost = event.target.closest('[data-ningzi-delete-post]');
+    if (removePost) {
+      deleteNingziPost(removePost.getAttribute('data-ningzi-delete-post'));
       return;
     }
     const retry = event.target.closest('[data-ningzi-retry-scene]');
@@ -21446,7 +21890,7 @@ async function replyToNingziComment(post, comment, text) {
   try {
     comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
     comment.replies.push({ id: uid('nreply'), role: 'user', text: userText, createdAt: nowIso() });
-    const persona = ningziPersonaById(comment.personaId);
+    const persona = ensureNingziCommentPersona(comment);
     if (persona) {
       persona.fixed = true;
       persona.source = persona.source === 'friend' ? 'friend' : 'reply';
@@ -21509,7 +21953,7 @@ function openNingziSaveImage(post) {
     kicker: 'SAVE MOMENT',
     title: uiTranslation('保存这张照片？'),
     body: '<div style="border-radius:14px;overflow:hidden;border:1px solid var(--theme-border);background:#17251d;"><img src="' + escapeAttr(src) + '" alt="' + escapeAttr(uiTranslation('场景图')) + '" style="display:block;width:100%;max-height:460px;object-fit:contain;"></div>'
-      + '<p class="backup-note" style="margin-top:9px;">' + escapeHtml(uiTranslation('保存到手机 Download/Syntonmancy，或由浏览器下载。')) + '</p>',
+      + '<p class="backup-note" style="margin-top:9px;">' + escapeHtml(uiTranslation('保存到')) + '：' + escapeHtml(imageSaveFolderLabel()) + '</p>',
     mount(bodyEl) {
       const row = document.createElement('div');
       row.className = 'button-row';
@@ -21548,6 +21992,15 @@ async function saveNingziSceneImage(post) {
     return;
   }
   if (!src) return;
+  const folder = imageSaveFolder();
+  if (folder && window.zijianDesktop && typeof window.zijianDesktop.saveImageToFolder === 'function') {
+    try {
+      const path = await window.zijianDesktop.saveImageToFolder(folder, name, src);
+      if (path) showToast('已保存到 ' + path);
+      else showToast('保存失败，请检查存储权限', 'error');
+      return;
+    } catch (err) { /* fall through */ }
+  }
   if (window.zijianDesktop && typeof window.zijianDesktop.saveImageToDownloads === 'function') {
     try {
       const path = await window.zijianDesktop.saveImageToDownloads(name, src);
@@ -21566,6 +22019,34 @@ async function saveNingziSceneImage(post) {
   showToast('已开始保存图片');
 }
 
+function ensureNingziCommentPersona(comment) {
+  if (!comment) return null;
+  let persona = ningziPersonaById(comment.personaId);
+  if (persona) return persona;
+  // Old data may have had its persona record pruned or capped. Rebuild a
+  // lightweight local profile from the comment snapshot so avatars and
+  // replies keep working without retaining every full persona forever.
+  const same = ningziState().personas.find(item =>
+    !item.fixed && item.name === (comment.name || '朋友') && item.avatar === comment.avatar
+  );
+  persona = same || {
+    id: uid('npersona'),
+    name: comment.name || '朋友',
+    signature: ningziSignatureFromInterpretation(comment.interpretation || ''),
+    avatar: normalizeAvatar(comment.avatar),
+    createdAt: nowIso(),
+    fixed: false,
+    source: 'generated',
+    chatId: null,
+    blacklisted: false,
+    lastSeenAt: null,
+  };
+  if (!same) ningziState().personas.push(persona);
+  comment.personaId = persona.id;
+  persistState({ quiet: true });
+  return persona;
+}
+
 function openNingziCommentProfile(commentId) {
   let targetComment = null;
   for (const post of ningziState().posts) {
@@ -21573,32 +22054,8 @@ function openNingziCommentProfile(commentId) {
     if (found) { targetComment = found; break; }
   }
   if (!targetComment) return;
-
-  let persona = ningziPersonaById(targetComment.personaId);
-  if (!persona) {
-    // Old data may have had its personaId cleared by the old pruning pass.
-    // Rebuild a local profile from the comment snapshot so the avatar is clickable.
-    const same = ningziState().personas.find(item =>
-      !item.fixed && item.name === (targetComment.name || '朋友') && item.avatar === targetComment.avatar
-    );
-    persona = same || {
-      id: uid('npersona'),
-      name: targetComment.name || '朋友',
-      signature: ningziSignatureFromInterpretation(targetComment.interpretation || ''),
-      avatar: normalizeAvatar(targetComment.avatar),
-      createdAt: nowIso(),
-      fixed: false,
-      source: 'generated',
-      chatId: null,
-      blacklisted: false,
-      lastSeenAt: null,
-    };
-    if (!same) ningziState().personas.push(persona);
-    targetComment.personaId = persona.id;
-    persistState({ quiet: true });
-  }
-
-  openNingziPersonaModal(persona.id);
+  const persona = ensureNingziCommentPersona(targetComment);
+  if (persona) openNingziPersonaModal(persona.id);
 }
 
 function openNingziPersonaModal(id) {
@@ -21690,6 +22147,7 @@ function ningziSettingsPanelHTML() {
     + '<div class="ningzi-settings-row"><label for="ningziImageKey">'+escapeHtml(uiTranslation('图片 API Key'))+'</label><input id="ningziImageKey" type="password" autocomplete="off" placeholder="只保存在本机" value="' + escapeAttr(settings.apiKey) + '"></div>'
     + '<div class="ningzi-settings-row ningzi-settings-stack"><label for="ningziImageModel">'+escapeHtml(uiTranslation('图片模型'))+'</label><div class="ningzi-inline-row"><input id="ningziImageModel" type="text" value="' + escapeAttr(settings.model) + '"><button class="secondary-button" type="button" id="ningziImageModelFetch">'+escapeHtml(uiTranslation('自动获取模型名称'))+'</button></div><select id="ningziImageModelSelect"><option value="">'+escapeHtml(uiTranslation('选择已获取的模型'))+'</option></select></div>'
     + '<div class="ningzi-settings-row ningzi-settings-stack"><label for="ningziImageBase">'+escapeHtml(uiTranslation('接口地址'))+'</label><select id="ningziImageBasePreset"></select><input id="ningziImageBase" type="text" value="' + escapeAttr(settings.baseUrl) + '"></div>'
+    + '<div class="ningzi-settings-row ningzi-settings-stack"><label for="ningziImageSaveFolder">'+escapeHtml(uiTranslation('图片保存位置'))+'</label><div class="ningzi-inline-row"><input id="ningziImageSaveFolder" type="text" readonly value="' + escapeAttr(imageSaveFolderLabel()) + '"><button class="secondary-button" type="button" id="ningziChooseImageSaveFolder">'+escapeHtml(uiTranslation('更改图片保存位置'))+'</button></div><p class="ningzi-settings-note">'+escapeHtml(uiTranslation('长按图片保存时会使用这个位置。网页版由浏览器决定下载位置。'))+'</p></div>'
     + '<p class="ningzi-settings-note">'+escapeHtml(uiTranslation('混元、千问、ChatGPT 和 Gemini 可分别配置。图片 Key 属于设备设置，不写入备份。每次生成图片都会产生服务商费用。'))+'</p>'
     + '<p class="ningzi-settings-note">'+escapeHtml(uiTranslation('参考图会发送给你选择的图片服务商。请只上传你有权使用的图片，并避免上传未成年人或未经同意的真人照片。'))+'</p>';
 }
@@ -21771,6 +22229,26 @@ function mountNingziSettings(bodyEl) {
     persistState({ quiet: true });
     showToast('固定朋友概率已更新');
   });
+  const imageFolderBtn = bodyEl.querySelector('#ningziChooseImageSaveFolder');
+  const imageFolderInput = bodyEl.querySelector('#ningziImageSaveFolder');
+  if (imageFolderBtn) {
+    imageFolderBtn.addEventListener('click', async () => {
+      const bridge = window.zijianDesktop;
+      if (!bridge || typeof bridge.chooseImageFolder !== 'function') {
+        showToast('网页版由浏览器决定下载位置，不能单独选择文件夹', 'notice');
+        return;
+      }
+      try {
+        const folder = await bridge.chooseImageFolder();
+        if (!folder) return;
+        setImageSaveFolder(folder);
+        if (imageFolderInput) imageFolderInput.value = folder;
+        showToast('图片保存位置已更新');
+      } catch (err) {
+        showToast('选择图片保存位置失败', 'error');
+      }
+    });
+  }
   const provider = bodyEl.querySelector('#ningziImageProvider');
   const basePreset = bodyEl.querySelector('#ningziImageBasePreset');
   const modelSelect = bodyEl.querySelector('#ningziImageModelSelect');
@@ -22169,6 +22647,8 @@ function initApp() {
   state = loadState();
   ensureChatSignatures();
   applySkin();
+  pruneBackupCopies('auto').catch(() => {});
+  pruneBackupCopies('manual').catch(() => {});
   cleanIncompleteRounds();
   if (!state.activeChatId || !getChat(state.activeChatId)) {
     state.activeChatId = state.chats[0].id;
