@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-Hans">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>字势静兼 / Syntonmancy — 下载</title>
-<meta name="description" content="字势静兼 / Syntonmancy 2.1.6：纯本地的得字解句聊天应用。Windows、Android 与网页版下载。">
+<meta name="description" content="字势静兼 / Syntonmancy 2.1.7：纯本地的得字解句聊天应用，新增凝兹朋友圈。Windows、Android 与网页版下载。">
 <style>
   :root{
     --ink:#1d2a24; --ink-soft:#4f6157; --muted:#77877d;
@@ -100,6 +100,28 @@
     .section-head{display:block}
     .section-head p{margin-top:6px}
   }
+
+  .ningzi-release .section-head p{max-width:620px}
+  .ningzi-panel{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.75fr);gap:0;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(135deg,var(--paper-2),#f7f1e5);box-shadow:var(--shadow)}
+  .ningzi-copy{padding:30px 32px}
+  .ningzi-copy h3{font-size:clamp(22px,2.8vw,30px);margin:12px 0 12px}
+  .ningzi-copy > p{color:var(--ink-soft);font-size:14px;max-width:680px;margin:0 0 16px}
+  .ningzi-points{list-style:none;padding:0;margin:18px 0 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+  .ningzi-points li{position:relative;padding-left:16px;color:var(--ink-soft);font-size:12.5px;line-height:1.65}
+  .ningzi-points li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .ningzi-points b{color:var(--ink)}
+  .ningzi-note{border-left:2px solid var(--gold);padding-left:12px;color:var(--muted)!important;font-size:12px!important}
+  .ningzi-side{padding:30px 26px;background:linear-gradient(160deg,var(--forest-2),var(--forest));color:#f1ede2;display:flex;flex-direction:column;justify-content:center}
+  .ningzi-eyebrow{font-size:9px;letter-spacing:.18em;color:var(--gold-soft);text-transform:uppercase}
+  .ningzi-side strong{font-family:var(--serif);font-size:clamp(34px,4vw,52px);line-height:1.02;font-weight:600;margin:12px 0 14px;color:#f4eee2}
+  .ningzi-side p{color:rgba(241,237,226,.62);font-size:12px;margin:0 0 18px}
+  .ningzi-side dl{display:grid;gap:10px;margin:0;padding-top:14px;border-top:1px solid rgba(241,237,226,.14)}
+  .ningzi-side dl div{display:flex;justify-content:space-between;gap:14px;font-size:11px}
+  .ningzi-side dt{color:rgba(241,237,226,.46);white-space:nowrap}
+  .ningzi-side dd{margin:0;color:rgba(241,237,226,.82);text-align:right}
+  @media (max-width:760px){.ningzi-panel{grid-template-columns:1fr}.ningzi-copy{padding:24px}.ningzi-side{padding:24px}.ningzi-points{grid-template-columns:1fr}}
+
+  .hero .hero-ningzi{color:var(--gold-soft);font-size:13px;margin-top:-16px;margin-bottom:28px;max-width:620px}
 </style>
 </head>
 <body>
@@ -111,6 +133,7 @@
         <span><strong>字势静兼</strong><small>Syntonmancy — A Quiet Chat</small></span>
       </a>
       <div class="navlinks">
+        <a href="#ningzi">凝兹</a>
         <a href="#download">下载</a>
         <a href="#screens">界面</a>
         <a href="#notes">使用前</a>
@@ -119,11 +142,12 @@
       </div>
     </nav>
     <div class="hero-inner">
-      <span class="kicker"><i class="dot"></i> VERSION 2.1.6 · LOCAL-FIRST</span>
+      <span class="kicker"><i class="dot"></i> VERSION 2.1.7 · LOCAL-FIRST</span>
       <h1>把想说的话，<br>放进一小段时间里。</h1>
       <p>字势静兼是一个纯本地的得字解句聊天应用。每轮从三千个汉字中得字，先把字组起来，再把字义写成回复；不依赖云端账户，也不需要长程聊天记忆。</p>
+      <p class="hero-ningzi">2.1.7 新增「凝兹朋友圈」：写下一条动态，让场景图与评论在本地慢慢长出来。</p>
       <div class="actions">
-        <a class="btn btn-primary" href="#download">下载 2.1.6</a>
+        <a class="btn btn-primary" href="#download">下载 2.1.7</a>
         <a class="btn btn-ghost" href="app/hanzi-oracle.html" target="_blank" rel="noopener">在浏览器中打开</a>
         <a class="btn btn-ghost" href="https://github.com/kki1661/syntonmancy">查看源码</a>
       </div>
@@ -135,26 +159,59 @@
 </header>
 
 <main class="wrap">
+
+  <section id="ningzi" class="ningzi-release">
+    <div class="section-head">
+      <h2>2.1.7 · 凝兹朋友圈</h2>
+      <p>不是社交平台，是一条只在本地发生的动态。</p>
+    </div>
+    <div class="ningzi-panel">
+      <div class="ningzi-copy">
+        <span class="badge hot">NEW MODULE</span>
+        <h3>发一条只属于此处的动态。</h3>
+        <p>在字势静兼里，凝兹朋友圈是一个完全本地的虚拟空间。你写下想说的话，系统先生成一张场景图，再让评论随着时间一条条长出来。每个评论者都有自己的名字、签名和来处，固定朋友与陌生角色会依照概率出现。</p>
+        <ul class="ningzi-points">
+          <li><b>只在本地发生：</b>动态、角色、评论和参考图都保存在本机，不上传云端，也不连接真实社交网络。</li>
+          <li><b>让评论慢慢长出来：</b>发布后评论按时间分批出现，而不是一次性全部生成。</li>
+          <li><b>图片服务可自选：</b>支持腾讯混元、通义千问、ChatGPT 和 Gemini；DeepSeek 可以写文字评论，但不能生成图片。</li>
+          <li><b>参考图与保存：</b>可添加人物、环境、物品参考；长按场景图即可保存到本地。</li>
+          <li><b>语言与备份：</b>评论会跟随“回复语言”翻译；手动和自动备份都可自己选择保存位置。</li>
+          <li><b>有边界的虚拟关系：</b>评论者有自己的名字、签名和来处，但它们不是现实中的真人。</li>
+        </ul>
+        <p class="ningzi-note">凝兹朋友圈是字势静兼内部的虚拟模块。它不会替你联系真人，也不会把动态发布到任何真实社交平台。</p>
+      </div>
+      <aside class="ningzi-side">
+        <span class="ningzi-eyebrow">A CROSS-DIMENSIONAL MOMENTS FEED</span>
+        <strong>DewHertz<br>Moments</strong>
+        <p>名字来自“字势凝兹”的英文 DewHertz：凝结了世上善意灵魂这一刻发出的频率。</p>
+        <dl>
+          <div><dt>图片</dt><dd>混元 / 千问 / ChatGPT / Gemini</dd></div>
+          <div><dt>文字评论</dt><dd>DeepSeek 等文本模型</dd></div>
+          <div><dt>数据</dt><dd>仅保存在本机</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
   <section id="download">
     <div class="section-head">
       <h2>选择你的版本</h2>
-      <p>当前发布：2.1.6 · 2026-11-16</p>
+      <p>当前发布：2.1.7 · 2026-11-18</p>
     </div>
     <div class="grid">
       <article class="card">
         <div class="card-top"><h3>Windows</h3><span class="badge hot">推荐</span></div>
-        <p>当前用户安装，不需要管理员权限。支持 Windows 10/11 x64；安装包未做商业代码签名，SmartScreen 可能提示“未知发布者”。</p>
-        <ul class="facts"><li>.exe 安装包</li><li>约 160 MB</li><li>无需管理员</li></ul>
-        <a class="btn btn-dark" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.6/Syntonmancy-Setup-2.1.6.exe">下载 Windows 安装包</a>
-        <a class="btn btn-line" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.6/Syntonmancy-Windows-2.1.6.zip">下载便携版 ZIP</a>
-        <p class="note">如果 SmartScreen 拦截：点“更多信息”→“仍要运行”。</p>
+        <p>解压后运行便携版；不需要安装，也不需要管理员权限。</p>
+        <ul class="facts"><li>ZIP 便携包</li><li>约 160 MB</li><li>免安装</li></ul>
+        <a class="btn btn-line" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.7/Syntonmancy-2.1.7-Windows-Portable.zip">下载便携版 ZIP</a>
+        <p class="note">下载 ZIP 后先右键 ZIP → 属性 → 勾选“解除锁定” → 应用，再解压；首次运行如被 SmartScreen 提示，点“更多信息”→“仍要运行”。</p>
       </article>
 
       <article class="card">
         <div class="card-top"><h3>Android</h3><span class="badge">release 签名</span></div>
-        <p>适用于 Android 7.0 及以上。通过系统文件管理器侧载；首次安装需要允许“安装未知应用”。</p>
+        <p>适用于 Android 7.0 及以上。通过系统文件管理器侧载；首次安装需要允许“安装未知应用”。本版支持把备份直接导出到 <code>Download/Syntonmancy</code>。</p>
         <ul class="facts"><li>.apk</li><li>约 1 MB</li><li>arm64 / x86 通用</li></ul>
-        <a class="btn btn-dark" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.6/Syntonmancy-2.1.6-Android-release.apk">下载 Android APK</a>
+        <a class="btn btn-dark" href="https://github.com/kki1661/syntonmancy/releases/download/v2.1.7/Syntonmancy-2.1.7-Android-release.apk">下载 Android APK</a>
         <p class="note">如果装过旧 debug 版，请先卸载旧版（签名不同），再安装本版。</p>
       </article>
 
@@ -190,7 +247,6 @@
   <section id="notes">
     <div class="section-head">
       <h2>使用前请知道</h2>
-      <p>本地优先，也意味着责任在你</p>
     </div>
     <div class="steps">
       <div class="step"><h4>自备 API Key</h4><p>应用本身免费；模型调用费用由你向 DeepSeek / Qwen / ChatGPT / Gemini 等服务商支付。应用不包含额度。</p></div>
@@ -209,10 +265,9 @@
     <div class="section-head"><h2>校验</h2><p>下载后可对照 SHA-256</p></div>
     <details>
       <summary>展开 SHA-256</summary>
-      <p>Windows 安装包 <span class="hash"><code>673f36ded80eaccf2c81d48a266ad03b40ba46c008070c2bf1e38c38ab7fa335</code></span></p>
-      <p>Windows 便携版 <span class="hash"><code>1fe84aaee55b48f4ea1448e49dc65b6fcc798a609e640a444c8d1eb1b82de1c8</code></span></p>
-      <p>Android APK <span class="hash"><code>63d08cbec7d5897d8460ddb44994dde537286ea7cb5edb0427be724e0e74f0b8</code></span></p>
-      <p>应用本体 <span class="hash"><code>ef21b81c7726ee2c44d0613904b005408d8fff65ce25388b4f90feac135f29cc</code></span></p>
+      <p>Windows 便携版 <span class="hash"><code>c4e29578a1bbcb45189ee8ad52021b52f89eb5963d5fa2f33ae03e6e54fd17a8</code></span></p>
+      <p>Android APK <span class="hash"><code>e9d25d1e8cd76b70b32604f881490cfe67d23080bafc76d9b2a3c45eed1cd7f9</code></span></p>
+      <p>应用本体 <span class="hash"><code>2aa7519c0ae055debed6bc485e57e2ab03465c340c45257deb7c6d80f85ae1f9</code></span></p>
       <p>校验方法：Windows 可用 <code>Get-FileHash -Algorithm SHA256 文件</code>；macOS/Linux 可用 <code>shasum -a 256 文件</code>。</p>
     </details>
   </section>
@@ -220,10 +275,11 @@
 
 <footer>
   <div class="wrap">
-    <span>字势静兼 / Syntonmancy 2.1.6 · © 2026 字势静兼作者</span>
+    <span>字势静兼 / Syntonmancy 2.1.7 · © 2026 字势静兼作者</span>
     <span>代码 GPL-3.0-only · 论文 CC BY 4.0 · 文档 Apache-2.0</span>
     <span><a href="https://github.com/kki1661/syntonmancy">GitHub</a> · <a href="https://doi.org/10.5281/zenodo.24252070">Zenodo</a></span>
   </div>
 </footer>
 </body>
 </html>
+
