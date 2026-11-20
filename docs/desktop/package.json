@@ -1,0 +1,18 @@
+{
+  "name": "syntonmancy-desktop",
+  "productName": "字势静兼",
+  "version": "2.9.10",
+  "description": "字势静兼 Syntonmancy desktop edition",
+  "main": "main.js",
+  "author": "Syntonmancy",
+  "license": "GPL-3.0-only",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . 字势静兼 --platform=win32 --arch=x64 --out=dist-2910 --overwrite --no-asar --ignore=node_modules --ignore=dist --ignore=dist-2910 --ignore=tools --ignore=zip --ignore=字势静兼-Windows --ignore=字势静兼 --ignore=_ --ignore=Syntonmancy-Setup-*.exe --ignore=*.zip --ignore=RELEASE-NOTES-* --ignore=SHA256SUMS-* --icon=assets/icon-v3.ico --app-version=2.9.10 --win32metadata.CompanyName=Syntonmancy --win32metadata.ProductName=字势静兼"
+  },
+  "devDependencies": {
+    "electron": "^45.3.1",
+    "@electron/packager": "^20.3.0"
+  }
+}
