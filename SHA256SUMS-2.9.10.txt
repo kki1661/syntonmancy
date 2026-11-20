@@ -1,0 +1,4 @@
+104e3e39675bb595ea679e3de3fcadfae6289e25280a7c0889b605d7a2ffdb63  Syntonmancy-2.9.10-Android-release.apk
+5a8391e453c380098e9d2ddfb312ed3d817d4984937da839cc355062f0eb7fa7  Syntonmancy-2.9.10-Web.zip
+1975c941ecd598d71d4ad7260bafb06f84ee992d8e105e7edb928f485f79715b  Syntonmancy-2.9.10-Windows-Portable.zip
+68c0a382f09b30d5f9e3dd350ed2dc473f8436a60bfe8e98be23c28af9c4643c  Syntonmancy-2.9.10-Windows-Setup.exe

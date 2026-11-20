@@ -1,163 +1,162 @@
-﻿# 字势静兼 / Syntonmancy 2.1.6
+﻿<!-- SPDX-License-Identifier: Apache-2.0 -->
+# 字势静兼（Syntonmancy）
 
-**得字解句式跨维聊天平台 · 技术披露与可复现材料**
+**Copyright © 2026 字势静兼作者**
 
-- 应用版本：**2.1.6**
-- 报告定稿：**2026-11-16**
-- 应用源文件：`hanzi-oracle.html`
-- 应用 SHA-256：`ef21b81c7726ee2c44d0613904b005408d8fff65ce25388b4f90feac135f29cc`
-- 论文：CC BY 4.0
-- 代码：GPL-3.0-only
-- 文档、提示词与示例：Apache-2.0
+字势静兼（英文名 **Syntonmancy**）是一个单文件、本地运行的得字解句聊天应用。聊天、收藏、日记和照片默认保存在本机；不依赖服务器即可使用。本应用使用 **DeepSeek Harness AI** 开发。
 
-> 这是 2.1.6 的定稿材料。外部投稿模板里曾出现 `2.1.3` 的示例文件名；本仓库以最终论文与应用的实际版本 **2.1.6** 为准。
+## 当前状态
 
-## 一句概括
+- 当前交付形态：单文件网页应用 `hanzi-oracle-ningzi.html`（同步副本 `hanzi-oracle.html`）。
+- 当前提供 Windows 桌面版、Windows 安装版、Android WebView 版和网页版，版本 **2.9.10**。
+- Android `versionCode 27`，`versionName 2.9.10`；release 签名。
+- 计划中的跨端备份方案：导出一个 JSON 文件即可完成备份；在另一台设备上导入同一个文件即可继续。
+- 备份文件包含聊天、收藏、日记、朋友圈、随影、系列、相册、关系图谱和 MOD；不含本机账户密码、AI 服务商配置和 API Key。
+- 每个聊天可以单独设置“对我的称呼”；这个称呼只在该聊天的固定字获得中生效，各聊天互不共享。
+- 本机账户只用于区分同一台设备上的不同用户。换设备后需要新建本机账户，再导入备份文件。
 
-字势静兼不把“长程聊天记忆”作为核心，而是每轮从 3,000 个常用汉字中随机得字，要求模型先用全部得字组成 `word_layer`，再在 **至少 70% 来自本轮字义、最多 30% 自由联想** 的预算内写 `interpretation`，最后把 `interpretation` 转写成可直接发给用户的 `reply`。
+## 主要功能
 
-聊天界面、用字草稿、日记评论、图片弱参考、备份和本地账户都在单文件 HTML 中实现；桌面端是 Electron 包装，Android 端是 WebView 包装。
+- **字势静兼聊天**：得字解句、固定称呼、两阶段回复、本机账户。
+- **日记本**：图片、纸张、文件夹、朋友可见与评论。
+- **凝兹朋友圈**：一次生成 1–9 张图片，每张可填写独立拍摄需求，九宫格展示；评论按时间出现，支持回复和概率收束。
+- **凝兹随影**：章节、小节、故事、图片、参考图、朋友续写、章节评论区、关系图谱、相册与系列、照片书。
+- **界面语言**：简体中文、繁体中文、英语、日语、韩语、泰语、印尼语、菲律宾语、马来语、法语、德语、意大利语、俄语、西班牙语、巴西葡萄牙语、阿拉伯语。
+- **应用内使用说明**：左侧栏底部打开。
 
-## 仓库结构
+## 备份槽与自动备份
 
-```text
-repo/
-  README.md
-  LICENSE                          # GPL-3.0-only，代码
-  LICENSE-PAPER                    # CC BY 4.0，论文
-  LICENSE-APACHE-2.0               # Apache-2.0，文档/提示词/示例
-  LICENSING.md                     # 文件级许可证地图
-  TECHNICAL-DISCLOSURE.md          # 技术披露摘要
-  ARCHITECTURE.md                  # 架构与数据流
-  CHECKSUMS.txt                    # 除自身外全部文件的 SHA-256
-  CITATION.cff                     # GitHub 引用元数据
-  .zenodo.json                     # Zenodo/GitHub 集成元数据
-  ZENODO-METADATA.md               # Zenodo 字段建议
-  paper/
-    字势静兼-技术披露-v2.1.6.pdf
-    字势静兼-技术披露-v2.1.6.docx
-  code/
-    syntonmancy-2.1.6-source.zip
-  prompts/
-    SYSTEM-PROMPT.md
-  examples/
-    example-01.json
-    example-01.md
-    example-01.png
-    example-02-bridge-only.json
-    example-02-bridge-only.md
-    example-02-bridge-only.png
-  docs/
-    PARAMETER-TABLE.md
-```
+设置 → 备份与恢复中有两个本机槽位：
 
-## 快速开始
+- **手动备份槽**：只有点击保存时才写入，方便保留一个用户手动版本。
+- **自动备份槽**：默认开启，默认每 10 分钟保存一次，可改为 5/10/20 分钟、1 小时、每天、3 天或每周；新自动备份会替换旧自动备份。
+- 两个槽位都可以下载为 JSON 文件或恢复到当前数据；文件名分别使用 `zijian-manual-backup-*` 和 `zijian-auto-backup-*`。
+- 浏览器关闭时不会执行自动备份，下次打开后按新间隔继续。
 
-### Web 单文件版
+## 备份互通
 
-从 `code/syntonmancy-2.1.6-source.zip` 解压后，直接用现代浏览器打开 `hanzi-oracle.html`。
+1. 在旧设备打开「备份与恢复」→「导出备份」，得到一个 JSON 文件。
+2. 把该文件复制到新设备（U 盘、网盘、数据线均可）。
+3. 在新设备创建本机账户，打开「备份与恢复」→「选择备份文件」→ 合并导入。
+4. 导入采用合并方式，不会删除新设备上已有的聊天或日记。
 
-首次使用：
+图片会以 data URL 写入 JSON，因此只需要复制一个文件，不需要额外文件夹。
 
-1. 注册本机账户。
-2. 阅读并确认成年与免责声明。
-3. 打开“设置 → 连接 AI 引擎”，选择服务商，填写自己的 API Key。
-4. 回到聊天框开始。
+## MOD
 
-应用本身不包含模型额度。第三方 API 费用由用户向对应服务商支付。
+设置 → MOD 提供声明式 MOD 管理器：
 
-### 桌面端
+- 把 MOD 放进一个文件夹（建议包含 `manifest.json` 和 `README.md`），在 MOD 页选择“导入 MOD 文件夹”。
+- 字势静兼把 MOD 文本交给用户当前配置的 AI 服务商理解，生成可审核的安装方案和可启用规则；需要用户自己的 API Key 和模型。
+- 应用不执行 MOD 中的任意 JavaScript，只应用审核通过的声明式规则。
+- MOD 会随备份文件迁移；导入时只读取所选文件夹内的文本文件。
 
-源码在 `code/syntonmancy-2.1.6-source.zip` 的 `desktop/` 中。发布页可另外提供 Electron 构建产物；本仓库以源代码和可复现材料为主。
+## 界面语言与回复语言
 
-### Android
+- 设置 → 语言中的“界面语言”只影响本机界面，不需要联网；切换后刷新页面，当前账号会记住选择。
+- “回复语言”只影响灵体的回复，需要打开联网模式并配置自己的 API Key 与模型；本地模式仍用中文回复。
+- 当前界面语言覆盖 16 个语言槽位；新增文案按 14 种目标语言补齐。
+- 逐条 key 表见 [`I18N-KEY-TABLE.md`](I18N-KEY-TABLE.md)。字体授权审计见 [`FONT-LICENSING-AUDIT.md`](FONT-LICENSING-AUDIT.md)。
+- 机器翻译已做侮辱性/贬义歧义扫描，但未逐句人工复核；正式发布前仍建议抽查。
+- 翻译安全审计见 [`TRANSLATION-SAFETY-AUDIT.md`](TRANSLATION-SAFETY-AUDIT.md)：已修复印尼语/马来语“情妇”双关和西/葡颜色名歧义。
+- 本地字义库的成本、周期和可行性见 [`LOCAL-DICTIONARY-PLAN.md`](LOCAL-DICTIONARY-PLAN.md)。
+- 本地小模型的档位、成本和单文件限制见 [`LOCAL-MODEL-PLAN.md`](LOCAL-MODEL-PLAN.md)。
 
-源码在 `code/syntonmancy-2.1.6-source.zip` 的 `android-native/` 中，使用 Android WebView 加载本地 `assets/index.html`。
+## 日记可见范围与朋友评论
 
-## 示例
+- 创建或编辑日记时可以选择“日记仅自己可见”或“日记朋友可见”。
+- 仅自己可见的日记不开放朋友浏览和评论。
+- 朋友可见的日记会按聊天得字规则获得 1–4 条评论；每条数量等概率。评论等待时间在 1–96 小时中随机，若超过 72 小时则本轮放弃回编，并提示“本篇日记未有回复，再写一篇试试？”。
+- 评论会在到点后显示；如果应用当时未打开，下次打开日记时补显示。
+- 已发出的日记从“仅自己可见”改为“朋友可见”时，会走同一套评论获得流程。
 
-### 示例一：有 landing 的普通轮次
+## Prompt 与技术公开
 
-![Example 1](examples/example-01.png)
+字势静兼目前**不支持用户添加系统级 Prompt**；聊天与朋友圈中的“照片拍摄需求/照片描述”只用于图片生成，不改变系统规则。本项目的得字、固定称呼、用字草稿、双阶段回复和本地防御串校验等技术方案，作为**现有技术/防御性公开**发布，详见 GitHub 相关页面。GitHub：https://github.com/kki1661/syntonmancy；Zenodo DOI：https://doi.org/10.5281/zenodo.24252070。
 
-- 用户：`今天下班很晚，回家路上还在下雨。有点累，但也有点安心。`
-- 得字：山、风、夜、雨、灯、归、人、门
-- `word_layer`：`夜雨山风，灯下归人；门内灯亮。`
-- `landing`：`你到家了，身上的凉意还在。`
-- `reply`：先落地回答，再以“灯还亮着”的意象桥接。
+> 本文所述技术方案以防御性公开为目的发布，作者不主张就该技术方案申请或行使排他性专利权。
 
-完整 JSON：[`examples/example-01.json`](examples/example-01.json)  
-说明：[`examples/example-01.md`](examples/example-01.md)
+## 许可证结构
 
-### 示例二：bridge-only
+本项目采用**代码与文档分开授权**，不是同一份代码的双许可证：
 
-![Example 2](examples/example-02-bridge-only.png)
+| 内容 | 许可证 | 文件 |
+| --- | --- | --- |
+| 应用源代码（`hanzi-oracle.html` 等） | **GNU GPL v3.0 only** | [`LICENSE`](LICENSE) |
+| README、技术说明与文档 | **Apache License 2.0** | [`LICENSE-APACHE-2.0`](LICENSE-APACHE-2.0) |
 
-- 用户：`有些话说出来，会不会反而更远？`
-- 得字：月、影、无、声、潮、退
-- `landing`：空
-- `reply`：只写桥接意象，不硬造一个“是/否”答案。
+### 为什么不是 Apache-2.0 与 GPL-3.0 同时适用于代码
 
-完整 JSON：[`examples/example-02-bridge-only.json`](examples/example-02-bridge-only.json)  
-说明：[`examples/example-02-bridge-only.md`](examples/example-02-bridge-only.md)
+Apache-2.0 允许他人在保留声明的前提下闭源商用；GPL-3.0 要求分发修改版时提供源代码。如果把两者同时作为代码的可选许可证，使用者可以选择 Apache-2.0，从而绕过 GPL-3.0 的开源要求。因此本项目：
 
-> 两张截图是 2.1.6 界面中的**固定示例数据**，用于展示结构，不是某次真实模型调用的逐字截图。示例 JSON 是人工整理的合规样例，模型实际输出会变化。
+- **代码按 GPL-3.0-only 发布**，以尽量阻止“商用后不加适配改动就闭源”的行为；
+- **文档/技术说明按 Apache-2.0 发布**，便于免费软件作者阅读、引用和复用技术方案；
+- 文档与代码分别保留各自许可证，不构成对代码的双重授权。
 
-## 技术披露
+GPL-3.0 允许商业使用，但分发修改版时必须遵守 GPL 的源代码提供等义务。Apache-2.0 文档与 GPL-3.0 代码的兼容性按各自许可证处理；如要进行正式商业发布，请自行完成法律审查。
 
-- 摘要与边界：[`TECHNICAL-DISCLOSURE.md`](TECHNICAL-DISCLOSURE.md)
-- 架构：[`ARCHITECTURE.md`](ARCHITECTURE.md)
-- 参数表：[`docs/PARAMETER-TABLE.md`](docs/PARAMETER-TABLE.md)
-- 系统提示词：[`prompts/SYSTEM-PROMPT.md`](prompts/SYSTEM-PROMPT.md)
+## 商用与伦理声明
 
-论文 PDF 是排版定稿；论文 DOCX 用于可访问性和后续修订。两者内容一致时，以 PDF 的公开版本为准。
+以下内容是**作者的项目立场与请求，不是对 GPL-3.0 或 Apache-2.0 的附加限制**，也不改变许可证授予的权利：
 
-## 校验
+- 作者希望所有创作免费软件的人都能免费使用本项目的技术方案。
+- 商用应遵守适用法律与公序良俗。
+- 作者不认可未经授权的代理、倒卖或恶意目的的篡改；相关行为由行为人自行承担后果。
 
-`CHECKSUMS.txt` 使用 SHA-256，格式为：
+许可证本身不允许通过附加条款限制使用领域；因此上述内容作为独立声明发布，不并入 LICENSE。正式商用前请咨询律师。
 
-```text
-<hash>  <relative-path>
-```
+## 联网额度
 
-校验方法：
+如果 API 返回额度/余额不足或请求受限，字势静兼会提示“API 请求过于频繁，或额度/余额已用尽”，并保留错误原因；本轮不会伪造本地回复。具体额度与计费以服务商后台为准。
 
-```bash
-# Linux / macOS
-sha256sum -c CHECKSUMS.txt
+## 安全与限制
 
-# Windows PowerShell
-Get-Content CHECKSUMS.txt | ForEach-Object {
-  $h,$p = $_ -split '  ',2
-  $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $p).Hash.ToLower()
-  if ($actual -ne $h) { Write-Error "MISMATCH $p" }
-}
-```
+- 本机账户密码只在本机做哈希校验，聊天和日记**没有按账户加密**；能读取硬盘数据的人仍可能看到内容。
+- 没有“忘记密码”找回机制。
+- 防御串校验是客户端运行时约束，用于确保本构建的得字与结果发送路径完整；开源代码无法从技术上阻止他人修改客户端。若需要不可篡改的服务端保证，需要服务器或可信执行环境。
+- AI 回复依赖所选服务商；服务商的内容策略、模型和接口可能变化，本项目无法保证第三方审核行为。
 
-`CHECKSUMS.txt` 不包含自身。
+## 文件
 
-## 许可证与引用
+- `hanzi-oracle-ningzi.html`：应用本体（当前源码）。
+- `hanzi-oracle.html`：网页/桌面发布用同步副本。
+- `Syntonmancy-2.9.10-Windows-Portable.zip`：Windows 便携版。
+- `Syntonmancy-2.9.10-Windows-Setup.exe`：Windows 安装程序。
+- `Syntonmancy-2.9.10-Android-release.apk`：Android release APK。
+- `Syntonmancy-2.9.10-Web.zip`：网页单文件包。
+- `LICENSE`：GPL-3.0 完整文本。
+- `LICENSE-APACHE-2.0`：Apache-2.0 完整文本。
+- `NOTICE`：版权、许可证、防御性公开与归属声明。
+- `README.md`：本文件。
 
-文件级许可证见 [`LICENSING.md`](LICENSING.md)。建议引用：
+## 版权与法律说明
 
-```text
-字势静兼作者. (2026). 字势静兼 / Syntonmancy 2.1.6:
-得字解句式跨维聊天平台（技术披露与可复现材料）.
-Zenodo. https://doi.org/10.5281/zenodo.24252070
-```
+- 版权持有人署名为笔名 **字势静兼作者**。如进行版权登记、正式维权或商业授权，应按实际身份补充版权持有人信息。
+- 本文与项目声明不构成法律意见。许可证的完整法律文本以 `LICENSE` 和 `LICENSE-APACHE-2.0` 为准。
+- GitHub 仓库地址：https://github.com/kki1661/syntonmancy
+- 公开版本整理日期：2026-11-21（2.9.10）。
 
-GitHub 仓库地址与 Zenodo DOI 已写入本 README；[`ZENODO-METADATA.md`](ZENODO-METADATA.md) 保留为元数据参考。
+## Android 版（release 签名）
 
-## 边界与限制
+- APK：[字势静兼-2.9.10-release.apk](字势静兼-2.9.10-release.apk)
+- 使用 release keystore 签名，证书 SHA-256：`45:AE:5D:6C:98:0F:56:CA:C6:DD:F1:42:94:17:DC:42:0C:DB:C4:25:EA:FE:38:62:EA:6F:76:B2:E6:4E:86:82`
+- 从旧 debug 版切换时，需要先卸载旧版（签名不同，不能覆盖安装）
+- 聊天状态写入应用私有文件，不受 WebView localStorage 约 5MB 限制
+- 照片书默认保存到 `Download/Syntonmancy`，可在设置中更改
+- 不支持托盘；后台主动聊天和系统通知为尽力而为
 
-- 本项目是本地客户端，不提供云端账户、密码找回或云端同步。
-- 聊天与日记没有按账户加密；拿到本机硬盘的人仍可能读取数据。
-- 应用不验证身份证明；“年满 18 周岁”是用户自证。
-- 第三方模型可能产生事实错误、逻辑漏洞或幻觉；输出需用户自行复核。
-- “防御串”是 30 位固定完整性常量与艺术设定，不是经验证的安全防护。
-- 独立“呈现层编辑 pass”是设计讨论，2.1.6 未实现；仅在 reply 与 word_layer 重复时调用一次 `rewriteReplyOnly`。
+## Windows 安装版
 
-## 致谢
+- 安装包：[Syntonmancy-Setup-2.9.10.exe](desktop/Syntonmancy-Setup-2.9.10.exe)
+- 当前用户安装，可选择安装位置；安装前会自动关闭正在运行的旧版本
+- 自动创建桌面和开始菜单快捷方式
+- 保留聊天数据和用户选择的备份目录
 
-感谢 DeepSeek Harness 在实现、调试、报告整理和发布材料上的协助。  
-感谢 Qwen 对命名、表述与可读性提出的意见。
+## Windows 桌面版
+
+- 便携包：[`Syntonmancy-2.9.10-Windows-Portable.zip`](Syntonmancy-2.9.10-Windows-Portable.zip)
+- 解压后运行 `字势静兼.exe`；关闭窗口会留在 Windows 托盘继续后台运行。
+- 窗口隐藏、最小化或失去焦点时，新的灵体回复会触发 Windows 通知和系统提示音；点击通知会切回对应聊天。
+- 数据保存在 `%APPDATA%\字势静兼`，与浏览器版独立。
+- 手动备份与自动备份会同时写入你选择的备份目录和应用目录下的 `backups` 文件夹；可在「备份与恢复」里查看和更改。
+- 详细说明见 [`desktop/README.md`](desktop/README.md)。
