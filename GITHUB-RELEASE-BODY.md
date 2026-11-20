@@ -1,4 +1,4 @@
-﻿# Syntonmancy 2.9.10
+﻿# Syntonmancy 2.9.11
 
 **A private, local-first world for text, photos, and the people who live between them.**
 
@@ -36,31 +36,32 @@ This release focuses on the Suiying reading and editing experience, the Moments 
 - In-app usage guide
 - New UI copy translated across 14 languages
 - Calmer, non-aggressive wording in the guide
+- Fixed English-only missing translations in Settings → Alerts and every Suiying screen (102 keys × 14 languages)
 - New-account cold start: one friend, one welcome Moment, one sample Suiying entry
 
 ## Downloads
 
 | Platform | File | Size |
 |---|---|---|
-| Windows portable | `Syntonmancy-2.9.10-Windows-Portable.zip` | ~161 MB |
-| Windows installer | `Syntonmancy-2.9.10-Windows-Setup.exe` | ~161 MB |
-| Android | `Syntonmancy-2.9.10-Android-release.apk` | ~1.3 MB |
-| Web | `Syntonmancy-2.9.10-Web.zip` | ~1.2 MB |
+| Windows portable | `Syntonmancy-2.9.11-Windows-Portable.zip` | ~161 MB |
+| Windows installer | `Syntonmancy-2.9.11-Windows-Setup.exe` | ~161 MB |
+| Android | `Syntonmancy-2.9.11-Android-release.apk` | ~1.3 MB |
+| Web | `Syntonmancy-2.9.11-Web.zip` | ~1.2 MB |
 
 ## Install notes
 
 - **Windows portable:** unblock the ZIP before extracting (Properties → Unblock), then extract and run `字势静兼.exe`.
 - **Windows installer:** unsigned; SmartScreen may show “Unknown publisher”.
-- **Android:** release signed, `versionCode 27`, `versionName 2.9.10`; uninstall old debug builds before installing.
+- **Android:** release signed, `versionCode 28`, `versionName 2.9.11`; uninstall old debug builds before installing.
 - **Web:** open `index.html`; browser storage is limited, export JSON backups regularly.
 
 ## Checksums
 
 ```text
-1975c941ecd598d71d4ad7260bafb06f84ee992d8e105e7edb928f485f79715b  Syntonmancy-2.9.10-Windows-Portable.zip
-68c0a382f09b30d5f9e3dd350ed2dc473f8436a60bfe8e98be23c28af9c4643c  Syntonmancy-2.9.10-Windows-Setup.exe
-104e3e39675bb595ea679e3de3fcadfae6289e25280a7c0889b605d7a2ffdb63  Syntonmancy-2.9.10-Android-release.apk
-5a8391e453c380098e9d2ddfb312ed3d817d4984937da839cc355062f0eb7fa7  Syntonmancy-2.9.10-Web.zip
+fc6256e806e330552c83884be70fa7719323251cbdbab3fe82fdd1e280cb6478  Syntonmancy-2.9.11-Windows-Portable.zip
+a8be2ea2dcc1aed59a7d030c39efca6086a57042046601bfe127c4322b5c305b  Syntonmancy-2.9.11-Windows-Setup.exe
+fa129dc3d5c434d9f80cfe606b2dea3cbf4a36aa540e978dee7377a511d92fe8  Syntonmancy-2.9.11-Android-release.apk
+29ba54c5a35fa67cc9323a40b74c21d3bc1c95cef9cbb483cea56633a87ef535  Syntonmancy-2.9.11-Web.zip
 ```
 
 ## Notes
@@ -71,4 +72,4 @@ This release focuses on the Suiying reading and editing experience, the Moments 
 - Windows builds are unsigned.
 - macOS and iOS are not officially built in this release.
 
-Full notes: `RELEASE-NOTES-2.9.10.md`
+Full notes: `RELEASE-NOTES-2.9.11.md`

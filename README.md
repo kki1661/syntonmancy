@@ -8,8 +8,8 @@
 ## 当前状态
 
 - 当前交付形态：单文件网页应用 `hanzi-oracle-ningzi.html`（同步副本 `hanzi-oracle.html`）。
-- 当前提供 Windows 桌面版、Windows 安装版、Android WebView 版和网页版，版本 **2.9.10**。
-- Android `versionCode 27`，`versionName 2.9.10`；release 签名。
+- 当前提供 Windows 桌面版、Windows 安装版、Android WebView 版和网页版，版本 **2.9.11**。
+- Android `versionCode 28`，`versionName 2.9.11`；release 签名。
 - 计划中的跨端备份方案：导出一个 JSON 文件即可完成备份；在另一台设备上导入同一个文件即可继续。
 - 备份文件包含聊天、收藏、日记、朋友圈、随影、系列、相册、关系图谱和 MOD；不含本机账户密码、AI 服务商配置和 API Key。
 - 每个聊天可以单独设置“对我的称呼”；这个称呼只在该聊天的固定字获得中生效，各聊天互不共享。
@@ -120,10 +120,10 @@ GPL-3.0 允许商业使用，但分发修改版时必须遵守 GPL 的源代码�
 
 - `hanzi-oracle-ningzi.html`：应用本体（当前源码）。
 - `hanzi-oracle.html`：网页/桌面发布用同步副本。
-- `Syntonmancy-2.9.10-Windows-Portable.zip`：Windows 便携版。
-- `Syntonmancy-2.9.10-Windows-Setup.exe`：Windows 安装程序。
-- `Syntonmancy-2.9.10-Android-release.apk`：Android release APK。
-- `Syntonmancy-2.9.10-Web.zip`：网页单文件包。
+- `Syntonmancy-2.9.11-Windows-Portable.zip`：Windows 便携版。
+- `Syntonmancy-2.9.11-Windows-Setup.exe`：Windows 安装程序。
+- `Syntonmancy-2.9.11-Android-release.apk`：Android release APK。
+- `Syntonmancy-2.9.11-Web.zip`：网页单文件包。
 - `LICENSE`：GPL-3.0 完整文本。
 - `LICENSE-APACHE-2.0`：Apache-2.0 完整文本。
 - `NOTICE`：版权、许可证、防御性公开与归属声明。
@@ -134,11 +134,11 @@ GPL-3.0 允许商业使用，但分发修改版时必须遵守 GPL 的源代码�
 - 版权持有人署名为笔名 **字势静兼作者**。如进行版权登记、正式维权或商业授权，应按实际身份补充版权持有人信息。
 - 本文与项目声明不构成法律意见。许可证的完整法律文本以 `LICENSE` 和 `LICENSE-APACHE-2.0` 为准。
 - GitHub 仓库地址：https://github.com/kki1661/syntonmancy
-- 公开版本整理日期：2026-11-21（2.9.10）。
+- 公开版本整理日期：2026-11-21（2.9.11）。
 
 ## Android 版（release 签名）
 
-- APK：[字势静兼-2.9.10-release.apk](字势静兼-2.9.10-release.apk)
+- APK：[字势静兼-2.9.11-release.apk](字势静兼-2.9.11-release.apk)
 - 使用 release keystore 签名，证书 SHA-256：`45:AE:5D:6C:98:0F:56:CA:C6:DD:F1:42:94:17:DC:42:0C:DB:C4:25:EA:FE:38:62:EA:6F:76:B2:E6:4E:86:82`
 - 从旧 debug 版切换时，需要先卸载旧版（签名不同，不能覆盖安装）
 - 聊天状态写入应用私有文件，不受 WebView localStorage 约 5MB 限制
@@ -147,14 +147,14 @@ GPL-3.0 允许商业使用，但分发修改版时必须遵守 GPL 的源代码�
 
 ## Windows 安装版
 
-- 安装包：[Syntonmancy-Setup-2.9.10.exe](desktop/Syntonmancy-Setup-2.9.10.exe)
+- 安装包：[Syntonmancy-Setup-2.9.11.exe](desktop/Syntonmancy-Setup-2.9.11.exe)
 - 当前用户安装，可选择安装位置；安装前会自动关闭正在运行的旧版本
 - 自动创建桌面和开始菜单快捷方式
 - 保留聊天数据和用户选择的备份目录
 
 ## Windows 桌面版
 
-- 便携包：[`Syntonmancy-2.9.10-Windows-Portable.zip`](Syntonmancy-2.9.10-Windows-Portable.zip)
+- 便携包：[`Syntonmancy-2.9.11-Windows-Portable.zip`](Syntonmancy-2.9.11-Windows-Portable.zip)
 - 解压后运行 `字势静兼.exe`；关闭窗口会留在 Windows 托盘继续后台运行。
 - 窗口隐藏、最小化或失去焦点时，新的灵体回复会触发 Windows 通知和系统提示音；点击通知会切回对应聊天。
 - 数据保存在 `%APPDATA%\字势静兼`，与浏览器版独立。

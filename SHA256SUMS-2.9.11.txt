@@ -1,0 +1,4 @@
+fa129dc3d5c434d9f80cfe606b2dea3cbf4a36aa540e978dee7377a511d92fe8  Syntonmancy-2.9.11-Android-release.apk
+29ba54c5a35fa67cc9323a40b74c21d3bc1c95cef9cbb483cea56633a87ef535  Syntonmancy-2.9.11-Web.zip
+fc6256e806e330552c83884be70fa7719323251cbdbab3fe82fdd1e280cb6478  Syntonmancy-2.9.11-Windows-Portable.zip
+a8be2ea2dcc1aed59a7d030c39efca6086a57042046601bfe127c4322b5c305b  Syntonmancy-2.9.11-Windows-Setup.exe
